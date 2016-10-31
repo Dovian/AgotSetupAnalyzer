@@ -1,0 +1,112 @@
+﻿@model AgotSetupAnalyzerCore.AnalyzerConfigurationDTO
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<body>
+    <form id="ConfigForm">
+        <div class="configSectionLeft">
+            @Html.LabelFor(m => m.DeckList)
+            <div>
+                @Html.TextAreaFor(m => m.DeckList, new { @class = "decklist" })
+                @Html.ValidationMessageFor(m => m.DeckList)
+            </div>
+        </div>
+        <div class="configSectionRight">
+            <div>
+                @Html.LabelFor(m => m.NumberOfTrials, new { @class = "configLabel" })
+                @Html.TextBoxFor(m => m.NumberOfTrials, new { @Value = "10000" })
+                @Html.ValidationMessageFor(m => m.NumberOfTrials)
+            </div>
+
+            <h3>Number of Cards</h3>
+            <div>
+                @Html.LabelFor(m => m.CharacterFloorForGoodSetup, new { @class = "configLabel" })
+                @Html.RadioButtonFor(m => m.CharacterFloorForGoodSetup, 0) 0
+                @Html.RadioButtonFor(m => m.CharacterFloorForGoodSetup, 1) 1
+                @Html.RadioButtonFor(m => m.CharacterFloorForGoodSetup, 2, new { @checked = "true" }) 2
+                @Html.RadioButtonFor(m => m.CharacterFloorForGoodSetup, 3) 3
+                @Html.RadioButtonFor(m => m.CharacterFloorForGoodSetup, 4) 4
+                @Html.RadioButtonFor(m => m.CharacterFloorForGoodSetup, 5) 5
+                @Html.RadioButtonFor(m => m.CharacterFloorForGoodSetup, 6) 6
+                @Html.RadioButtonFor(m => m.CharacterFloorForGoodSetup, 7) 7
+                @Html.ValidationMessageFor(m => m.CharacterFloorForGoodSetup)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.CardFloorForGoodSetup, new { @class = "configLabel" })
+                @Html.RadioButtonFor(m => m.CardFloorForGoodSetup, 0) 0
+                @Html.RadioButtonFor(m => m.CardFloorForGoodSetup, 1) 1
+                @Html.RadioButtonFor(m => m.CardFloorForGoodSetup, 2) 2
+                @Html.RadioButtonFor(m => m.CardFloorForGoodSetup, 3, new { @checked = "true" }) 3
+                @Html.RadioButtonFor(m => m.CardFloorForGoodSetup, 4) 4
+                @Html.RadioButtonFor(m => m.CardFloorForGoodSetup, 5) 5
+                @Html.RadioButtonFor(m => m.CardFloorForGoodSetup, 6) 6
+                @Html.RadioButtonFor(m => m.CardFloorForGoodSetup, 7) 7
+                @Html.ValidationMessageFor(m => m.CardFloorForGoodSetup)
+            </div>
+
+            <h3>Four-Cost Characters</h3>
+            <div>
+                @Html.LabelFor(m => m.RequireGreatCharacter, new { @class = "configLabel" })
+                @Html.CheckBoxFor(m => m.RequireGreatCharacter)
+                @Html.ValidationMessageFor(m => m.RequireGreatCharacter)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.PreferGreatCharacter, new { @class = "configLabel" })
+                @Html.CheckBoxFor(m => m.PreferGreatCharacter)
+                @Html.ValidationMessageFor(m => m.PreferGreatCharacter)
+            </div>
+
+            <h3>Economy</h3>
+            <div>
+                @Html.LabelFor(m => m.RequireEconomy, new { @class = "configLabel" })
+                @Html.CheckBoxFor(m => m.RequireEconomy)
+                @Html.ValidationMessageFor(m => m.RequireEconomy)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.PreferEconomy, new { @class = "configLabel" })
+                @Html.CheckBoxFor(m => m.PreferEconomy)
+                @Html.ValidationMessageFor(m => m.PreferEconomy)
+            </div>
+
+            <h3>Mulligan Options</h3>
+            <div>
+                @Html.LabelFor(m => m.MulliganAllPoorSetups, new { @class = "configLabel" })
+                @Html.CheckBoxFor(m => m.MulliganAllPoorSetups, new { @checked = "true" })
+                @Html.ValidationMessageFor(m => m.MulliganAllPoorSetups)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.MulliganNoEcon, new { @class = "configLabel" })
+                @Html.CheckBoxFor(m => m.MulliganNoEcon)
+                @Html.ValidationMessageFor(m => m.MulliganNoEcon)
+            </div>
+            <div>
+                @Html.LabelFor(m => m.MulliganNoKey, new { @class = "configLabel" })
+                @Html.CheckBoxFor(m => m.MulliganNoKey)
+                @Html.ValidationMessageFor(m => m.MulliganNoKey)
+            </div>
+            &nbsp;
+            <div>
+                <button id="analyzeButton" class="analyzeButton" type="button" onclick="AnalyzeList()">Analyze List</button>
+            </div>
+        </div>
+    </form>
+    <div id="analyzerResultsSection">
+
+    </div>
+</body>
+
+<script type="text/javascript">
+    function AnalyzeList() {
+        $.ajax({
+            url: "/Analyzer/AnalyzeDeck",
+            data: $("#ConfigForm").serialize(),
+            type: "POST",
+            success: function (result) {
+
+            }
+        });
+    }
+</script>

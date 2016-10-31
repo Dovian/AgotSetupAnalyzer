@@ -23,11 +23,11 @@ namespace AgotSetupAnalyzerWS.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult AnalyzeDeck(AnalyzerConfigurationDTO dto)
+        public ActionResult AnalyzeDeck(AnalyzerConfigurationDTO dto)
         {
             var results = analyzer.Analyze(dto);
 
-            return PartialView(results);
+            return PartialView("_AnalyzerResults", results);
         }
 
     }

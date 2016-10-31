@@ -60,6 +60,7 @@
     <Compile Include="IDbReader.cs" />
     <Compile Include="IDbWriter.cs" />
     <Compile Include="IDeckAnalyzer.cs" />
+    <Compile Include="ILocalDBConfig.cs" />
     <Compile Include="IThronesDBProvider.cs" />
     <Compile Include="IDatabaseProvider.cs" />
     <Compile Include="StaticValues.cs" />

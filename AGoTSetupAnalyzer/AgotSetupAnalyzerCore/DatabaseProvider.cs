@@ -64,9 +64,12 @@ namespace AgotSetupAnalyzerCore
                 string cardName;
                 string setCode = "";
 
-                var splitName = card.Split(' ');
+                var splitName = card.Split(new string[]{"x  ", " ("}, StringSplitOptions.RemoveEmptyEntries);
 
-                quantity = int.Parse(splitName[0][0].ToString());
+                for(int i = 0; i < splitName.Length; i++)
+                    splitName[i] = splitName[i].Replace(")", string.Empty);
+
+                quantity = int.Parse(splitName[0]);
                 cardName = splitName[1];
                 if (splitName.Length == 3)
                     setCode = splitName[2];

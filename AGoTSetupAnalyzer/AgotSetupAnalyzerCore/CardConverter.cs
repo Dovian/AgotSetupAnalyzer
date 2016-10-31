@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace AgotSetupAnalyzerCore
             };
         }
 
-        public static Card LocalDBDataToCard(object obj)
+        public static Card LocalDBDataToCard(DataTable table)
         {
             return new Card();
         }

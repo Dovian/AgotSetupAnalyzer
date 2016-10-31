@@ -30,7 +30,17 @@ namespace AgotSetupAnalyzer
 
         private string[] ParseThronesDbList(string thronesDbList)
         {
-            throw new NotImplementedException();
+            var lines = thronesDbList.Split(new string[] {"\n", "\r\n"}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<int> linesToRemove = new List<int>();
+            for (int i = 0; i < lines.Count; i++)
+                if (lines[i].First() != '1' && lines[i].First() != '2' && lines[i].First() != '3')
+                    linesToRemove.Add(i);
+
+            linesToRemove = linesToRemove.OrderByDescending(l => l).ToList();
+            foreach (int line in linesToRemove)
+                lines.RemoveAt(line);
+
+            return lines.ToArray();
         }
     }
 }
