@@ -1,0 +1,9 @@
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\TestCore\bin\Debug\TestCore.dll
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\TestCore\bin\Debug\TestCore.pdb
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\TestCore\bin\Debug\AgotSetupAnalyzerCore.dll
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\TestCore\bin\Debug\Newtonsoft.Json.dll
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\TestCore\bin\Debug\AgotSetupAnalyzerCore.pdb
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\TestCore\bin\Debug\Newtonsoft.Json.xml
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\TestCore\obj\Debug\TestCore.csprojResolveAssemblyReference.cache
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\TestCore\obj\Debug\TestCore.dll
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\TestCore\obj\Debug\TestCore.pdb

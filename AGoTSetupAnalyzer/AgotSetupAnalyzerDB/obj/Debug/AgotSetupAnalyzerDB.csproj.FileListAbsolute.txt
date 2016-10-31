@@ -1,0 +1,11 @@
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\AgotSetupAnalyzerDB\bin\Debug\AgotSetupAnalyzerDB.dll
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\AgotSetupAnalyzerDB\bin\Debug\AgotSetupAnalyzerDB.pdb
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\AgotSetupAnalyzerDB\bin\Debug\AgotSetupAnalyzerCore.dll
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\AgotSetupAnalyzerDB\bin\Debug\Newtonsoft.Json.dll
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\AgotSetupAnalyzerDB\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\AgotSetupAnalyzerDB\bin\Debug\AgotSetupAnalyzerCore.pdb
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\AgotSetupAnalyzerDB\bin\Debug\Newtonsoft.Json.xml
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\AgotSetupAnalyzerDB\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\AgotSetupAnalyzerDB\obj\Debug\AgotSetupAnalyzerDB.csprojResolveAssemblyReference.cache
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\AgotSetupAnalyzerDB\obj\Debug\AgotSetupAnalyzerDB.dll
+C:\Users\danield\Documents\Projects\AgotSetup\AGoTSetupAnalyzer\AgotSetupAnalyzerDB\obj\Debug\AgotSetupAnalyzerDB.pdb
