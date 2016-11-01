@@ -18,14 +18,14 @@ namespace AgotSetupAnalyzerWS.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<string>> UpdateDataPull(int SetCode)
+        public async Task<int> UpdateDataPull(int SetCode)
         {
             var result = await this.localDbProvider.UpdateDB(SetCode);
             return result;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<string>> InitialDataPull()
+        public async Task<int> InitialDataPull()
         {
             var result = await this.localDbProvider.InitialDBPopulation();
             return result;

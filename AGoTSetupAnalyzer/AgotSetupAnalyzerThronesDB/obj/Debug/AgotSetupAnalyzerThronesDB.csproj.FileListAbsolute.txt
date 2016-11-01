@@ -20,3 +20,14 @@ C:\Users\danield\Documents\Projects\AgotSetup\GitHub\AgotSetupAnalyzer\AGoTSetup
 C:\Users\danield\Documents\Projects\AgotSetup\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\obj\Debug\AgotSetupAnalyzerThronesDB.csprojResolveAssemblyReference.cache
 C:\Users\danield\Documents\Projects\AgotSetup\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\obj\Debug\AgotSetupAnalyzerThronesDB.dll
 C:\Users\danield\Documents\Projects\AgotSetup\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\obj\Debug\AgotSetupAnalyzerThronesDB.pdb
+C:\Users\Daniel\Documents\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\bin\Debug\AgotSetupAnalyzerThronesDB.dll
+C:\Users\Daniel\Documents\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\bin\Debug\AgotSetupAnalyzerThronesDB.pdb
+C:\Users\Daniel\Documents\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\bin\Debug\AgotSetupAnalyzerCore.dll
+C:\Users\Daniel\Documents\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Daniel\Documents\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Daniel\Documents\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\bin\Debug\AgotSetupAnalyzerCore.pdb
+C:\Users\Daniel\Documents\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Daniel\Documents\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Daniel\Documents\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\obj\Debug\AgotSetupAnalyzerThronesDB.csprojResolveAssemblyReference.cache
+C:\Users\Daniel\Documents\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\obj\Debug\AgotSetupAnalyzerThronesDB.dll
+C:\Users\Daniel\Documents\GitHub\AgotSetupAnalyzer\AGoTSetupAnalyzer\AgotSetupAnalyzerThronesDB\obj\Debug\AgotSetupAnalyzerThronesDB.pdb

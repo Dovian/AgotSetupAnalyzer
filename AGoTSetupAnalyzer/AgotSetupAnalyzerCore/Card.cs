@@ -9,6 +9,7 @@ namespace AgotSetupAnalyzerCore
     [Serializable]
     public class Card
     {
+        public string CardCode { get; set; }
         public int Cost { get; set; }
         public StaticValues.Cardtypes Type { get; set; }
         public string Name { get; set; }
@@ -27,7 +28,7 @@ namespace AgotSetupAnalyzerCore
 
         public string ImageSource { get; set; }
         public string ThronesDBUrl { get; set; }
-        public string Set { get; set; }
+        public string SetCode { get; set; }
 
         public bool CanDupe(Card compareTo)
         {

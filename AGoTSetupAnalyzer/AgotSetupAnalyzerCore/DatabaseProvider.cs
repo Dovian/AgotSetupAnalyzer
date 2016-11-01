@@ -25,7 +25,7 @@ namespace AgotSetupAnalyzerCore
             this.localDbWriter = localDbWriter;
         }
 
-        public async Task<IEnumerable<string>> InitialDBPopulation()
+        public async Task<int> InitialDBPopulation()
         {
             var thronesDbCards = await thronesDbProvider.GetAllCards();
                 
@@ -35,7 +35,7 @@ namespace AgotSetupAnalyzerCore
             return await localDbWriter.UpdateDb(convertedResults);
         }
 
-        public async Task<IEnumerable<string>> UpdateDB(int SetCode)
+        public async Task<int> UpdateDB(int SetCode)
         {
             var codeList = new List<string>();
             for (int i = 1; i < StaticValues.MaxSetSize; i++)
