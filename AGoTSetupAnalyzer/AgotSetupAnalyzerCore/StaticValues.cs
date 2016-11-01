@@ -23,6 +23,26 @@ namespace AgotSetupAnalyzerCore
             Event,
         }
 
+        public static Dictionary<string, string> SetNameToSetCode = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            {"Valyrian Draft Set", "VDS"},
+            {"Core Set", "Core"},
+            {"Taking the Black", "TtB"},
+            {"The Road to Winterfell", "TRtW"},
+            {"The King's Peace", "TKP"},
+            {"No Middle Ground", "NMG"},
+            {"Calm over Westeros", "CoW"},
+            {"True Steel", "TS"},
+            {"Wolves of the North", "WotN"},
+            {"Across the Seven Kingdoms", "AtSK"},
+            {"Called to Arms", "CtA"},
+            {"For Family Honor", "FFH"},
+            {"There Is My Claim", "TIMC"},
+            {"Ghosts of Harrenhal", "GoH"},
+            {"Tyrion's Chain", "TC"},
+            {"Lions of Casterly Rock", "LoCR"}
+        };
+
         #region Card Lists
         public static string[] EconomyCards =
         {

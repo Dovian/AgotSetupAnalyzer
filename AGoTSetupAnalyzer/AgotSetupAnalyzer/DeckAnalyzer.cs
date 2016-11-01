@@ -60,7 +60,7 @@ namespace AgotSetupAnalyzer
             var possibleSetups = new List<List<Card>>();
 
 
-            for (int i = 7; i > 0; i++)
+            for (int i = 7; i > 0; i--)
             {
                 var handCopy = hand.OrderBy(c => c.Cost);
                 if (handCopy.Any(c => c.Cost == i))

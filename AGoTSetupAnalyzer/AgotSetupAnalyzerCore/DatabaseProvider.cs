@@ -28,7 +28,7 @@ namespace AgotSetupAnalyzerCore
         public async Task<int> InitialDBPopulation()
         {
             var thronesDbCards = await thronesDbProvider.GetAllCards();
-                
+
             var JsonArrayCards = JArray.Parse(thronesDbCards);
             var convertedResults = JsonArrayCards.Select(c => CardConverter.ThronesDBDataToCard(c)).AsEnumerable();
 
@@ -64,15 +64,23 @@ namespace AgotSetupAnalyzerCore
                 string cardName;
                 string setCode = "";
 
-                var splitName = card.Split(new string[]{"x  ", " ("}, StringSplitOptions.RemoveEmptyEntries);
+                var splitName = card.Split(new string[] { "x", "(" }, StringSplitOptions.RemoveEmptyEntries);
 
-                for(int i = 0; i < splitName.Length; i++)
+                for (int i = 0; i < splitName.Length; i++)
+                {
+                    splitName[i] = splitName[i].Trim();
                     splitName[i] = splitName[i].Replace(")", string.Empty);
+                }
 
                 quantity = int.Parse(splitName[0]);
                 cardName = splitName[1];
                 if (splitName.Length == 3)
-                    setCode = splitName[2];
+                {
+                    if (StaticValues.SetNameToSetCode.ContainsKey(splitName[2]))
+                        setCode = StaticValues.SetNameToSetCode[splitName[2]];
+                    else
+                        setCode = splitName[2];
+                }
 
                 var localDbCard = await localDbReader.GetCard(cardName, setCode);
                 var convertedResult = CardConverter.LocalDBDataToCard(localDbCard);
