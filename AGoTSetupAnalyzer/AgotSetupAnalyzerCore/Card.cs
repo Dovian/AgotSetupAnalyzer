@@ -14,6 +14,7 @@ namespace AgotSetupAnalyzerCore
         public StaticValues.Cardtypes Type { get; set; }
         public string Name { get; set; }
         public string Text { get; set; }
+        public string[] Traits { get; set; }
         public string Faction { get; set; }
         public bool Loyal { get; set; }
         public string PackCode { get; set; }

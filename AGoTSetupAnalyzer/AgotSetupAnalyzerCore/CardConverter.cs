@@ -33,6 +33,9 @@ namespace AgotSetupAnalyzerCore
                     ? StaticValues.Cardtypes.None
                     : (StaticValues.Cardtypes)Enum.Parse(typeof(StaticValues.Cardtypes), json["type_name"].ToString()),
                 Unique = json["is_unique"] == null ? false : bool.Parse(json["is_unique"].ToString()),
+                Traits = json["traits"] == null
+                ? null
+                : json["traits"].ToString().Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToArray(),
             };
         }
 
@@ -69,6 +72,7 @@ namespace AgotSetupAnalyzerCore
                 ? StaticValues.Cardtypes.None
                 : (StaticValues.Cardtypes)Enum.Parse(typeof(StaticValues.Cardtypes), fakeJToken["type"].ToString()),
                 Unique = fakeJToken["uniqueCard"] == null ? false : bool.Parse(fakeJToken["uniqueCard"].ToString()),
+                Traits = fakeJToken["traits"] == null ? null : (string[])fakeJToken["traits"]
             };
         }
     }
