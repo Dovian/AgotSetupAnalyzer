@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgotSetupAnalyzerWS", "AgotSetupAnalyzerWS\AgotSetupAnalyzerWS.csproj", "{3CB635C6-FA95-49F0-A3AE-FEF0DB5FCE19}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CD43D263-4B45-42D4-942F-D00A642E9A50} = {CD43D263-4B45-42D4-942F-D00A642E9A50}
+		{781E40B8-97C2-495D-9995-1586CDD5193A} = {781E40B8-97C2-495D-9995-1586CDD5193A}
+		{050699ED-5590-4FFD-A2D5-753A64A2FC02} = {050699ED-5590-4FFD-A2D5-753A64A2FC02}
+		{FBCE1AFD-5D3D-40E1-9623-FAE347205B44} = {FBCE1AFD-5D3D-40E1-9623-FAE347205B44}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgotSetupAnalyzerDB", "AgotSetupAnalyzerDB\AgotSetupAnalyzerDB.csproj", "{CD43D263-4B45-42D4-942F-D00A642E9A50}"
 EndProject

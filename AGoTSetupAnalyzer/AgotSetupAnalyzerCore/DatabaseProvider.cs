@@ -64,17 +64,19 @@ namespace AgotSetupAnalyzerCore
                 string cardName;
                 string setCode = "";
 
-                var splitName = card.Split(new string[] { "x", "(" }, StringSplitOptions.RemoveEmptyEntries);
+                List<string> splitName = new List<string>();
+                splitName.Add(card.Substring(0, 2));
+                splitName = splitName.Concat(card.Remove(0,2).Split(new string[] { "(" }, StringSplitOptions.RemoveEmptyEntries)).ToList();
 
-                for (int i = 0; i < splitName.Length; i++)
+                for (int i = 0; i < splitName.Count; i++)
                 {
                     splitName[i] = splitName[i].Trim();
                     splitName[i] = splitName[i].Replace(")", string.Empty);
                 }
 
-                quantity = int.Parse(splitName[0]);
+                quantity = int.Parse(splitName[0][0].ToString());
                 cardName = splitName[1];
-                if (splitName.Length == 3)
+                if (splitName.Count == 3)
                 {
                     if (StaticValues.SetNameToSetCode.ContainsKey(splitName[2]))
                         setCode = StaticValues.SetNameToSetCode[splitName[2]];

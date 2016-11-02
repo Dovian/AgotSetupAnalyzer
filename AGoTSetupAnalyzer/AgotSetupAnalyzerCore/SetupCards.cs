@@ -11,6 +11,11 @@ namespace AgotSetupAnalyzerCore
         public List<Card> CardsInHand { get; set; }
         public bool IsBad { get; set; }
 
+        public SetupCards()
+        {
+            CardsInHand = new List<Card>();
+        }
+
         public Dictionary<string, bool> IconsInSetup()
         {
             return new Dictionary<string, bool>(){

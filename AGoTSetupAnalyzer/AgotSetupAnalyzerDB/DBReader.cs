@@ -27,7 +27,7 @@ namespace AgotSetupAnalyzerDB
 
             string sql = String.Format("SELECT * FROM \"agotCardTable\" WHERE name='{0}'", cardName.Replace("'", "''"));
             if (!string.IsNullOrEmpty(setCode))
-                sql += String.Format(" AND \"setCode\"='{0}'", setCode);
+                sql += String.Format(" AND \"packCode\"='{0}'", setCode);
 
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
             connection.Open();

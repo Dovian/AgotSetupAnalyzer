@@ -29,7 +29,6 @@ namespace AgotSetupAnalyzerCore
 
         public string ImageSource { get; set; }
         public string ThronesDBUrl { get; set; }
-        public string SetCode { get; set; }
 
         public bool CanDupe(Card compareTo)
         {

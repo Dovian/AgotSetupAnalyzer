@@ -25,7 +25,6 @@ namespace AgotSetupAnalyzerCore
                 Name = json["name"] == null ? "" : json["name"].ToString(),
                 PackCode = json["pack_code"] == null ? "" : json["pack_code"].ToString(),
                 Power = json["is_power"] == null ? false : bool.Parse(json["is_power"].ToString()),
-                SetCode = json["pack_code"] == null ? "" : json["pack_code"].ToString(),
                 Strength = json["strength"] == null ? 0 : int.Parse(json["strength"].ToString()),
                 Text = json["text"] == null ? "" : json["text"].ToString(),
                 ThronesDBUrl = json["url"] == null ? "" : json["url"].ToString(),
@@ -33,7 +32,7 @@ namespace AgotSetupAnalyzerCore
                     ? StaticValues.Cardtypes.None
                     : (StaticValues.Cardtypes)Enum.Parse(typeof(StaticValues.Cardtypes), json["type_name"].ToString()),
                 Unique = json["is_unique"] == null ? false : bool.Parse(json["is_unique"].ToString()),
-                Traits = json["traits"] == null ? null : json["traits"].ToString(),
+                Traits = json["traits"] == null ? "" : json["traits"].ToString(),
             };
         }
 
@@ -45,10 +44,10 @@ namespace AgotSetupAnalyzerCore
             var deck = new List<Card>();
             foreach (DataRow row in table.Rows)
             {
-
                 for (int i = 0; i < columns.Count; i++)
                     fakeJToken.Add(columns[i].ToString(), row[i]);
             }
+
             return new Card()
             {
                 CardCode = fakeJToken["cardCode"] == null ? null : fakeJToken["cardCode"].ToString(),
@@ -62,7 +61,6 @@ namespace AgotSetupAnalyzerCore
                 Name = fakeJToken["name"] == null ? "" : fakeJToken["name"].ToString(),
                 PackCode = fakeJToken["packCode"] == null ? "" : fakeJToken["packCode"].ToString(),
                 Power = fakeJToken["power"] == null ? false : bool.Parse(fakeJToken["power"].ToString()),
-                SetCode = fakeJToken["setCode"] == null ? "" : fakeJToken["setCode"].ToString(),
                 Strength = fakeJToken["strength"] == null ? 0 : int.Parse(fakeJToken["strength"].ToString()),
                 Text = fakeJToken["text"] == null ? "" : fakeJToken["text"].ToString(),
                 ThronesDBUrl = fakeJToken["thronesDBUrl"] == null ? "" : fakeJToken["thronesDBUrl"].ToString(),
