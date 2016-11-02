@@ -26,65 +26,85 @@ namespace AgotSetupAnalyzer
 
             deck.Shuffle();
             var hand = deck.DeckList.Take(7);
+            var chosenSetup = PickForMostCardsUsed(hand.ToList());
+
+            if (chosenSetup.CardsInHand.Count < config.CardFloorForGoodSetup
+                || chosenSetup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character).Count() < config.CharacterFloorForGoodSetup
+                || (config.RequireEconomy && !chosenSetup.ContainsEcon())
+                || (config.RequireGreatCharacter && !chosenSetup.ContainsGreatCharacter()))
+                chosenSetup.IsBad = true;
 
             return new AnalyzerResultsDTO();
         }
 
         //Likely best sort for most used
-        private List<Card> PickForMostCardsUsed(List<Card> hand)
+        private SetupCards PickForMostCardsUsed(List<Card> hand)
         {
             var goldRemaining = StaticValues.SetupGold;
-            List<Card> setup = new List<Card>();
+            SetupCards setup = new SetupCards();
 
             var handCopy = hand.OrderBy(c => c.Cost).ToList();
-            
-            while (goldRemaining > 0)
+            var characterOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Character);
+            var locationOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Location);
+            var attachmentOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Attachment);
+
+            foreach (Card card in characterOptions)
             {
-                goldRemaining -= handCopy.First().Cost;
-
-                if (goldRemaining >= 0)
-                    setup.Concat(handCopy.Take(1));
-            }
-
-            /*Check replacements (does goldRemaining + cost = another character's cost?)*/
-
-            return setup;
-        }
-
-
-        //Possible sort for closest to 8
-        private List<Card> PickForClosestToCap(List<Card> hand)
-        {
-            var goldRemaining = StaticValues.SetupGold;
-            List<Card> setup = new List<Card>();
-            var possibleSetups = new List<List<Card>>();
-
-
-            for (int i = 7; i > 0; i--)
-            {
-                var handCopy = hand.OrderBy(c => c.Cost);
-                if (handCopy.Any(c => c.Cost == i))
+                if (!(card.Limited && setup.LimitedInSetup()))
                 {
-                    var possibleSetup = new List<Card>();
-                    possibleSetup.Add(handCopy.First(c => c.Cost == i));
-
-                    goldRemaining -= i;
-
-                    while (goldRemaining > 0)
+                    if (setup.CardsInHand.Any(c => c.Name == card.Name)
+                            && card.CanDupe(setup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
                     {
-                        goldRemaining -= handCopy.First().Cost;
-
-                        if (goldRemaining >= 0)
-                            possibleSetup.Concat(handCopy.Take(1));
+                        setup.CardsInHand.Add(card);
                     }
-
-                    possibleSetups.Add(possibleSetup);
+                    else if (goldRemaining >= card.Cost)
+                    {
+                        goldRemaining -= card.Cost;
+                        setup.CardsInHand.Add(card);
+                    }
+                    else
+                        break;
                 }
-
-                goldRemaining = 8;
             }
 
-            /*Pick from possibles*/
+            foreach (Card card in locationOptions)
+            {
+                if (!(card.Limited && setup.LimitedInSetup()))
+                {
+                    if (setup.CardsInHand.Any(c => c.Name == card.Name)
+                            && card.CanDupe(setup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
+                    {
+                        setup.CardsInHand.Add(card);
+                    }
+                    else if (goldRemaining >= card.Cost)
+                    {
+                        goldRemaining -= card.Cost;
+                        setup.CardsInHand.Add(card);
+                    }
+                    else
+                        break;
+                }
+            }
+
+            /*These need special rules
+            foreach (Card card in attachmentOptions)
+            {
+                if (!(card.Limited && setup.LimitedInSetup()))
+                {
+                    if (setup.CardsInHand.Any(c => c.Name == card.Name)
+                            && card.CanDupe(setup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
+                    {
+                        setup.CardsInHand.Add(card);
+                    }
+                    else if (goldRemaining >= card.Cost)
+                    {
+                        goldRemaining -= card.Cost;
+                        setup.CardsInHand.Add(card);
+                    }
+                    else
+                        break;
+                }
+            }*/
 
             return setup;
         }

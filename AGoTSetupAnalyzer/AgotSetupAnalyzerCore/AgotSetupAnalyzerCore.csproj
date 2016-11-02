@@ -57,6 +57,7 @@
     <Compile Include="CardConverter.cs" />
     <Compile Include="DatabaseProvider.cs" />
     <Compile Include="Deck.cs" />
+    <Compile Include="SetupCards.cs" />
     <Compile Include="IDbReader.cs" />
     <Compile Include="IDbWriter.cs" />
     <Compile Include="IDeckAnalyzer.cs" />
