@@ -33,12 +33,12 @@ namespace AgotSetupAnalyzerDB
                     + "\"cardCode\",cost,type,name,text,"
                     + "faction,loyal,\"packCode\",limited,\"uniqueCard\","
                     + "strength,military,intrigue,power,\"imageSource\","
-                    + "\"thronesDBUrl\",\"setCode\")"
+                    + "\"thronesDBUrl\",\"setCode\",traits)"
                     + " VALUES ("
                     + ":cardCode,:cost,:type,:name,:text,"
                     + ":faction,:loyal,:packCode,:limited,:uniqueCard,"
                     + ":strength,:military,:intrigue,:power,:imageSource,"
-                    + ":thronesDBUrl,:setCode)");
+                    + ":thronesDBUrl,:setCode,:traits)");
 
                 NpgsqlCommand sqlCommand = new NpgsqlCommand(sql, connection);
                 sqlCommand.Parameters.Add(new NpgsqlParameter("cardCode", card.CardCode));
@@ -58,6 +58,7 @@ namespace AgotSetupAnalyzerDB
                 sqlCommand.Parameters.Add(new NpgsqlParameter("imageSource", card.ImageSource));
                 sqlCommand.Parameters.Add(new NpgsqlParameter("thronesDBUrl", card.ThronesDBUrl));
                 sqlCommand.Parameters.Add(new NpgsqlParameter("setCode", card.SetCode));
+                sqlCommand.Parameters.Add(new NpgsqlParameter("traits", card.Traits));
 
                 try
                 {
