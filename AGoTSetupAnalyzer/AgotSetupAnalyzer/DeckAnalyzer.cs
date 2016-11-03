@@ -18,6 +18,7 @@ namespace AgotSetupAnalyzer
 
         public async Task<AnalyzerResultsDTO> Analyze(AnalyzerConfigurationDTO config)
         {
+            var Results = new AnalyzerResultsDTO();
             var cardNames = ParseThronesDbList(config.DeckList);
             Deck deck = new Deck()
             {
@@ -32,16 +33,31 @@ namespace AgotSetupAnalyzer
 
                 if (chosenSetup.CardsInHand.Count < config.CardFloorForGoodSetup
                     || chosenSetup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character).Count() < config.CharacterFloorForGoodSetup
-                    || (config.RequireEconomy && !chosenSetup.ContainsEcon())
+                    || (config.RequireEconomy && !(chosenSetup.NumOfEconCards() > 0))
                     || (config.RequireGreatCharacter && !chosenSetup.ContainsGreatCharacter()))
+                {
                     chosenSetup.IsBad = true;
+                    deck.Shuffle();
+                    hand = deck.DeckList.Take(7);
+                    var mulliganSetup = PickForMostCardsUsed(hand.ToList(), true);
+
+
+                    if (mulliganSetup.CardsInHand.Count < config.CardFloorForGoodSetup
+                        || mulliganSetup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character).Count() < config.CharacterFloorForGoodSetup
+                        || (config.RequireEconomy && !(mulliganSetup.NumOfEconCards() > 0))
+                        || (config.RequireGreatCharacter && !mulliganSetup.ContainsGreatCharacter()))
+                        mulliganSetup.IsBad = true;
+
+                    Results.UpdateResults(mulliganSetup);
+                }
+                Results.UpdateResults(chosenSetup);
             }
 
-            return new AnalyzerResultsDTO();
+            return Results;
         }
 
         //Likely best sort for most used
-        private SetupCards PickForMostCardsUsed(List<Card> hand)
+        private SetupCards PickForMostCardsUsed(List<Card> hand, bool mulligan = false)
         {
             var goldRemaining = StaticValues.SetupGold;
             SetupCards setup = new SetupCards();
@@ -88,6 +104,8 @@ namespace AgotSetupAnalyzer
                         break;
                 }
             }
+
+            //Swaps happen here
 
             /*These need special rules
             foreach (Card card in attachmentOptions)

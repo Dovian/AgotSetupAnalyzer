@@ -9,6 +9,7 @@ namespace AgotSetupAnalyzerCore
     public class SetupCards
     {
         public List<Card> CardsInHand { get; set; }
+        public bool IsMulligan { get; set; }
         public bool IsBad { get; set; }
 
         public SetupCards()
@@ -25,6 +26,20 @@ namespace AgotSetupAnalyzerCore
             };
         }
 
+        public Dictionary<string, int> StrengthPerIcon()
+        {
+            return new Dictionary<string, int>(){
+                {"Military", CardsInHand.Where(c => c.Military).Count()},
+                {"Intrigue", CardsInHand.Where(c => c.Intrigue).Count()},
+                {"Power", CardsInHand.Where(c => c.Power).Count()},
+            };
+        }
+
+        public int GoldUsed()
+        {
+            return CardsInHand.Sum(c => c.Cost);
+        }
+
         public bool LimitedInSetup()
         {
             return CardsInHand.Any(c => c.Limited);
@@ -35,13 +50,13 @@ namespace AgotSetupAnalyzerCore
             return CardsInHand.Count(c => c.Type == StaticValues.Cardtypes.Character);
         }
 
-        public bool ContainsEcon()
+        public int NumOfEconCards()
         {
-            bool result = false;
+            int result = 0;
 
             foreach (Card c in CardsInHand)
                 if (StaticValues.EconomyCards.Contains(c.CardCode))
-                    result = true;
+                    result++;
 
             return result;
 
