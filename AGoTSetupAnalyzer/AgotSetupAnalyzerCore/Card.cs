@@ -30,6 +30,7 @@ namespace AgotSetupAnalyzerCore
 
         public string ImageSource { get; set; }
         public string ThronesDBUrl { get; set; }
+        private Dictionary<string, object> _attachmentRestrictions { get; set; }
 
         /*
          * Potentially need method to differentiate between inclusive and exclusive restrictions
@@ -47,7 +48,10 @@ namespace AgotSetupAnalyzerCore
          */
         public Dictionary<string, object> AttachmentRestriction
         {
-            get;
+            get
+            {
+                return _attachmentRestrictions;
+            }
             set
             {
                 var restrictions = new Dictionary<string, object>()
@@ -98,7 +102,7 @@ namespace AgotSetupAnalyzerCore
                     }
                 }
 
-                value = restrictions;
+                _attachmentRestrictions = restrictions;
             }
         }
 
