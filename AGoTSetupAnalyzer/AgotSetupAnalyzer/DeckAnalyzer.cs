@@ -105,9 +105,6 @@ namespace AgotSetupAnalyzer
                 }
             }
 
-            //Swaps happen here
-
-            /*These need special rules
             foreach (Card card in attachmentOptions)
             {
                 if (!(card.Limited && setup.LimitedInSetup()))
@@ -119,13 +116,17 @@ namespace AgotSetupAnalyzer
                     }
                     else if (goldRemaining >= card.Cost)
                     {
-                        goldRemaining -= card.Cost;
-                        setup.CardsInHand.Add(card);
+                        var possibleCharacters = setup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character);
+                        if (possibleCharacters.Any(c => card.CanAttach(c)))
+                        {
+                            goldRemaining -= card.Cost;
+                            setup.CardsInHand.Add(card);
+                        }
                     }
                     else
                         break;
                 }
-            }*/
+            }
 
             return setup;
         }
