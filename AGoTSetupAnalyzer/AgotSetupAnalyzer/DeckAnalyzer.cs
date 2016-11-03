@@ -24,15 +24,18 @@ namespace AgotSetupAnalyzer
                 DeckList = (await dbProvider.PopulateDecklist(cardNames)).ToList()
             };
 
-            deck.Shuffle();
-            var hand = deck.DeckList.Take(7);
-            var chosenSetup = PickForMostCardsUsed(hand.ToList());
+            for (int i = 0; i < config.NumberOfTrials; i++)
+            {
+                deck.Shuffle();
+                var hand = deck.DeckList.Take(7);
+                var chosenSetup = PickForMostCardsUsed(hand.ToList());
 
-            if (chosenSetup.CardsInHand.Count < config.CardFloorForGoodSetup
-                || chosenSetup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character).Count() < config.CharacterFloorForGoodSetup
-                || (config.RequireEconomy && !chosenSetup.ContainsEcon())
-                || (config.RequireGreatCharacter && !chosenSetup.ContainsGreatCharacter()))
-                chosenSetup.IsBad = true;
+                if (chosenSetup.CardsInHand.Count < config.CardFloorForGoodSetup
+                    || chosenSetup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character).Count() < config.CharacterFloorForGoodSetup
+                    || (config.RequireEconomy && !chosenSetup.ContainsEcon())
+                    || (config.RequireGreatCharacter && !chosenSetup.ContainsGreatCharacter()))
+                    chosenSetup.IsBad = true;
+            }
 
             return new AnalyzerResultsDTO();
         }
