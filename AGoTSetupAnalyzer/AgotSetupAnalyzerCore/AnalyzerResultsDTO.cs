@@ -39,9 +39,9 @@ namespace AgotSetupAnalyzerCore
         public void UpdateResults(SetupCards setup)
         {
             BadSetups += setup.IsBad ? 1 : 0;
-            GoldUsed[setup.GoldUsed()]++;
+            GoldUsed[setup.GoldUsed]++;
             CardsUsed[setup.CardsInHand.Count]++;
-            CharactersUsed[setup.NumOfCharacters()]++;
+            CharactersUsed[setup.CharactersSetup]++;
             NumOfEconCards[setup.NumOfEconCards()]++;
             NumWithGreatCharacter += setup.ContainsGreatCharacter() ? 1 : 0;
             Mulligans += setup.IsMulligan ? 1 : 0;

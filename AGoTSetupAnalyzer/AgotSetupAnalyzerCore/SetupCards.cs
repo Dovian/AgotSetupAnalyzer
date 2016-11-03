@@ -11,6 +11,8 @@ namespace AgotSetupAnalyzerCore
         public List<Card> CardsInHand { get; set; }
         public bool IsMulligan { get; set; }
         public bool IsBad { get; set; }
+        public int GoldUsed { get; set; }
+        public int CharactersSetup { get; set; }
 
         public SetupCards()
         {
@@ -35,19 +37,9 @@ namespace AgotSetupAnalyzerCore
             };
         }
 
-        public int GoldUsed()
-        {
-            return CardsInHand.Sum(c => c.Cost);
-        }
-
         public bool LimitedInSetup()
         {
             return CardsInHand.Any(c => c.Limited);
-        }
-
-        public int NumOfCharacters()
-        {
-            return CardsInHand.Count(c => c.Type == StaticValues.Cardtypes.Character);
         }
 
         public int NumOfEconCards()
