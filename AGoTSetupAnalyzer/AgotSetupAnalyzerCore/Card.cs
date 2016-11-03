@@ -126,7 +126,7 @@ namespace AgotSetupAnalyzerCore
                 return false;
             }
 
-            if ((character.AttachmentRestriction["General"] as string) == "NO ATTACHMENTS")
+            if (((string)character.AttachmentRestriction["General"]) == "NO ATTACHMENTS")
                 return false;
 
             if (((List<string>)character.AttachmentRestriction["Traits"]).Count > 0)
