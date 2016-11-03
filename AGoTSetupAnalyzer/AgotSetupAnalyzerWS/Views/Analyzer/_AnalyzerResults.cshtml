@@ -1,1 +1,42 @@
-﻿
+﻿@model AgotSetupAnalyzerCore.AnalyzerResultsDTO
+
+@{
+    ViewBag.Title = "Results";
+}
+
+<div>
+    @Html.LabelFor(m => m.BadSetups)
+    @Html.DisplayFor(m => m.BadSetups)
+</div>
+<div>
+    @Html.LabelFor(m => m.CardsUsed)
+    @Html.DisplayFor(m => m.CardsUsed)
+</div>
+<div>
+    @Html.LabelFor(m => m.CharactersUsed)
+    @Html.DisplayFor(m => m.CharactersUsed)
+</div>
+<div>
+    @Html.LabelFor(m => m.NumOfEconCards)
+    @Html.DisplayFor(m => m.NumOfEconCards)
+</div>
+<div>
+    @Html.LabelFor(m => m.GoldUsed)
+    @Html.DisplayFor(m => m.GoldUsed)
+</div>
+<div>
+    @Html.LabelFor(m => m.NumWithGreatCharacter)
+    @Html.DisplayFor(m => m.NumWithGreatCharacter)
+</div>
+<div>
+    @Html.LabelFor(m => m.Mulligans)
+    @Html.DisplayFor(m => m.Mulligans)
+</div>
+<div>
+    @Html.LabelFor(m => m.TotalCharWithIcon)
+    @Html.DisplayFor(m => m.TotalCharWithIcon)
+</div>
+<div>
+    @Html.LabelFor(m => m.TotalStrPerIcon)
+    @Html.DisplayFor(m => m.TotalStrPerIcon)
+</div>

@@ -53,6 +53,7 @@ namespace AgotSetupAnalyzer
                 Results.UpdateResults(chosenSetup);
             }
 
+            Results.FinalizeAverages(config.NumberOfTrials);
             return Results;
         }
 
@@ -61,6 +62,7 @@ namespace AgotSetupAnalyzer
         {
             var goldRemaining = StaticValues.SetupGold;
             SetupCards setup = new SetupCards();
+            setup.IsMulligan = mulligan;
 
             var handCopy = hand.OrderBy(c => c.Cost).ToList();
             var characterOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Character);

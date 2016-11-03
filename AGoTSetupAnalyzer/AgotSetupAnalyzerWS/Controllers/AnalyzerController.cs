@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -23,9 +24,9 @@ namespace AgotSetupAnalyzerWS.Controllers
         }
 
         [HttpPost]
-        public ActionResult AnalyzeDeck(AnalyzerConfigurationDTO dto)
+        public async Task<ActionResult> AnalyzeDeck(AnalyzerConfigurationDTO dto)
         {
-            var results = analyzer.Analyze(dto);
+            var results = await analyzer.Analyze(dto);
 
             return PartialView("_AnalyzerResults", results);
         }

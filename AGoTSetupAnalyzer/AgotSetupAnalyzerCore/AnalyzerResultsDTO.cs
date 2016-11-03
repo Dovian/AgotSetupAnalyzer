@@ -7,29 +7,29 @@ namespace AgotSetupAnalyzerCore
 {
     public class AnalyzerResultsDTO
     {
-        public int[] GoldUsed { get; set; }
-        public int[] CardsUsed { get; set; }
-        public int[] CharactersUsed { get; set; }
-        public int[] NumOfEconCards { get; set; }
-        public int BadSetups { get; set; }
-        public int NumWithGreatCharacter { get; set; }
-        public int Mulligans { get; set; }
-        public Dictionary<string, int> TotalCharWithIcon { get; set; }
-        public Dictionary<string, int> TotalStrPerIcon { get; set; }
-        public Dictionary<string, int> TimesCardUsedInSetup { get; set; }
+        public double[] GoldUsed { get; set; }
+        public double[] CardsUsed { get; set; }
+        public double[] CharactersUsed { get; set; }
+        public double[] NumOfEconCards { get; set; }
+        public double BadSetups { get; set; }
+        public double NumWithGreatCharacter { get; set; }
+        public double Mulligans { get; set; }
+        public Dictionary<string, double> TotalCharWithIcon { get; set; }
+        public Dictionary<string, double> TotalStrPerIcon { get; set; }
+        public Dictionary<string, double> TimesCardUsedInSetup { get; set; }
 
         public AnalyzerResultsDTO()
         {
-            GoldUsed = new int[9];
-            CardsUsed = new int[8];
-            CharactersUsed = new int[8];
-            NumOfEconCards = new int[8];
-            TotalCharWithIcon = new Dictionary<string, int>(){
+            GoldUsed = new double[9];
+            CardsUsed = new double[8];
+            CharactersUsed = new double[8];
+            NumOfEconCards = new double[8];
+            TotalCharWithIcon = new Dictionary<string, double>(){
                 {"Military", 0},
                 {"Intrigue", 0},
                 {"Power", 0}
             };
-            TotalStrPerIcon = new Dictionary<string, int>(){
+            TotalStrPerIcon = new Dictionary<string, double>(){
                 {"Military", 0},
                 {"Intrigue", 0},
                 {"Power", 0}
@@ -45,12 +45,36 @@ namespace AgotSetupAnalyzerCore
             NumOfEconCards[setup.NumOfEconCards()]++;
             NumWithGreatCharacter += setup.ContainsGreatCharacter() ? 1 : 0;
             Mulligans += setup.IsMulligan ? 1 : 0;
-            TotalCharWithIcon["Military"] += setup.IconsInSetup()["Military"] ? 1 : 0;
-            TotalCharWithIcon["Intrigue"] += setup.IconsInSetup()["Intrigue"] ? 1 : 0;
-            TotalCharWithIcon["Power"] += setup.IconsInSetup()["Power"] ? 1 : 0;
+            TotalCharWithIcon["Military"] += setup.IconsInSetup()["Military"];
+            TotalCharWithIcon["Intrigue"] += setup.IconsInSetup()["Intrigue"];
+            TotalCharWithIcon["Power"] += setup.IconsInSetup()["Power"];
             TotalStrPerIcon["Military"] += setup.StrengthPerIcon()["Military"];
             TotalStrPerIcon["Intrigue"] += setup.StrengthPerIcon()["Intrigue"];
             TotalStrPerIcon["Power"] += setup.StrengthPerIcon()["Power"];
+        }
+
+        public void FinalizeAverages(int trials)
+        {
+            BadSetups /= trials;
+            NumWithGreatCharacter /= trials;
+            Mulligans /= trials;
+            TotalCharWithIcon["Military"] /= trials;
+            TotalCharWithIcon["Intrigue"] /= trials;
+            TotalCharWithIcon["Power"] /= trials;
+            TotalStrPerIcon["Military"] /= trials;
+            TotalStrPerIcon["Intrigue"] /= trials;
+            TotalStrPerIcon["Power"] /= trials;
+            for (int i = 0; i < GoldUsed.Length; i++)
+                GoldUsed[i] /= trials;
+
+            for (int i = 0; i < CardsUsed.Length; i++)
+                CardsUsed[i] /= trials;
+
+            for (int i = 0; i < CharactersUsed.Length; i++)
+                CharactersUsed[i] /= trials;
+
+            for (int i = 0; i < NumOfEconCards.Length; i++)
+                NumOfEconCards[i] /= trials;
         }
     }
 }

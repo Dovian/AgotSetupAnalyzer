@@ -19,21 +19,21 @@ namespace AgotSetupAnalyzerCore
             CardsInHand = new List<Card>();
         }
 
-        public Dictionary<string, bool> IconsInSetup()
+        public Dictionary<string, double> IconsInSetup()
         {
-            return new Dictionary<string, bool>(){
-                {"Military", CardsInHand.Any(c => c.Military)},
-                {"Intrigue", CardsInHand.Any(c => c.Intrigue)},
-                {"Power", CardsInHand.Any(c => c.Power)},
-            };
-        }
-
-        public Dictionary<string, int> StrengthPerIcon()
-        {
-            return new Dictionary<string, int>(){
+            return new Dictionary<string, double>(){
                 {"Military", CardsInHand.Where(c => c.Military).Count()},
                 {"Intrigue", CardsInHand.Where(c => c.Intrigue).Count()},
                 {"Power", CardsInHand.Where(c => c.Power).Count()},
+            };
+        }
+
+        public Dictionary<string, double> StrengthPerIcon()
+        {
+            return new Dictionary<string, double>(){
+                {"Military", CardsInHand.Where(c => c.Military).Sum(c => c.Strength)},
+                {"Intrigue", CardsInHand.Where(c => c.Intrigue).Sum(c => c.Strength)},
+                {"Power", CardsInHand.Where(c => c.Power).Sum(c => c.Strength)},
             };
         }
 
