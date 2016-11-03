@@ -79,6 +79,7 @@ namespace AgotSetupAnalyzer
                     else if (goldRemaining >= card.Cost)
                     {
                         goldRemaining -= card.Cost;
+                        setup.CharactersSetup++;
                         setup.CardsInHand.Add(card);
                     }
                     else
@@ -127,7 +128,7 @@ namespace AgotSetupAnalyzer
                         break;
                 }
             }
-
+            setup.GoldUsed = 8 - goldRemaining;
             return setup;
         }
 
