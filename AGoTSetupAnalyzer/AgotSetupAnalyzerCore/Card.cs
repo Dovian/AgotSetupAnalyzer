@@ -30,7 +30,7 @@ namespace AgotSetupAnalyzerCore
 
         public string ImageSource { get; set; }
         public string ThronesDBUrl { get; set; }
-        private Dictionary<string, object> _attachmentRestrictions { get; set; }
+        public Dictionary<string, object> AttachmentRestrictions { get; set; }
 
         /*
          * Potentially need method to differentiate between inclusive and exclusive restrictions
@@ -46,64 +46,58 @@ namespace AgotSetupAnalyzerCore
          * 1. Parse 'No attachments*.' out first and use that string for restrictions
          * 2. So far it's safe to just parse for the Weapon trait, but it should be setup more generally and be capable of handling factions
          */
-        public Dictionary<string, object> AttachmentRestriction
+        public Dictionary<string, object> AttachmentRestriction()
         {
-            get
-            {
-                return _attachmentRestrictions;
-            }
-            set
-            {
-                var restrictions = new Dictionary<string, object>()
+            var result = new Dictionary<string, object>()
                 {
+                    {"General", ""},
                     {"Traits", new List<string>()},
                     {"Faction", ""},
                     {"Unique", false}
                 };
 
-                if (this.Type == StaticValues.Cardtypes.Attachment)
-                {
-                    var restrictionPortion = Regex.Match(this.Text, ".*only\\.").Value;
+            if (this.Type == StaticValues.Cardtypes.Attachment)
+            {
+                var restrictionPortion = Regex.Match(this.Text, ".*only\\.").Value;
 
-                    if (Regex.IsMatch(restrictionPortion, "\\[.*\\]"))
-                    {
-                        foreach (Match match in Regex.Matches(restrictionPortion, "\\[.*\\]"))
-                            restrictions["Faction"] = match.Value.Replace("[", string.Empty).Replace("]", string.Empty);
-                    }
+                if (Regex.IsMatch(restrictionPortion, "\\[.*\\]"))
+                {
+                    foreach (Match match in Regex.Matches(restrictionPortion, "\\[.*\\]"))
+                        result["Faction"] = match.Value.Replace("[", string.Empty).Replace("]", string.Empty);
+                }
+                if (Regex.IsMatch(restrictionPortion, "<i>.*</i>"))
+                {
+                    foreach (Match match in Regex.Matches(restrictionPortion, "<i>.*</i>"))
+                        ((List<string>)result["Traits"]).Add(match.Value.Replace("<i>", string.Empty).Replace("</i>", string.Empty));
+                }
+                if (restrictionPortion.Contains("Unique"))
+                    result["Unique"] = true;
+                //How to parse on names?
+            }
+
+            else if (this.Type == StaticValues.Cardtypes.Character)
+            {
+                var restrictionPortion = Regex.Match(this.Text, "No attachments.*\\.").Value;
+                if (restrictionPortion.Equals("No attachments."))
+                    result["General"] = "NO ATTACHMENTS";
+                else
+                {
                     if (Regex.IsMatch(restrictionPortion, "<i>.*</i>"))
                     {
                         foreach (Match match in Regex.Matches(restrictionPortion, "<i>.*</i>"))
-                            ((List<string>)restrictions["Traits"]).Add(match.Value.Replace("<i>", string.Empty).Replace("</i>", string.Empty));
+                            ((List<string>)result["Traits"]).Add(match.Value.Replace("<i>", string.Empty).Replace("</i>", string.Empty));
                     }
-                    if (restrictionPortion.Contains("Unique"))
-                        restrictions["Unique"] = true;
-                    //How to parse on names?
-                }
-
-                else if (this.Type == StaticValues.Cardtypes.Character)
-                {
-                    var restrictionPortion = Regex.Match(this.Text, "No attachments.*\\.").Value;
-                    if (restrictionPortion.Equals("No attachments."))
-                        restrictions.Add("General", "NO ATTACHMENTS");
-                    else
+                    /* Handle when it actually exists
+                    if (Regex.IsMatch(restrictionPortion, "\\[.*\\]"))
                     {
-                        if (Regex.IsMatch(restrictionPortion, "<i>.*</i>"))
-                        {
-                            foreach (Match match in Regex.Matches(restrictionPortion, "<i>.*</i>"))
-                                ((List<string>)restrictions["Traits"]).Add(match.Value.Replace("<i>", string.Empty).Replace("</i>", string.Empty));
-                        }
-                        /* Handle when it actually exists
-                        if (Regex.IsMatch(restrictionPortion, "\\[.*\\]"))
-                        {
-                            foreach (Match match in Regex.Matches(restrictionPortion, "\\[.*\\]"))
-                                restrictions.Add(match.Value.Replace("[", string.Empty).Replace("]", string.Empty));
-                        }
-                         */
+                        foreach (Match match in Regex.Matches(restrictionPortion, "\\[.*\\]"))
+                            restrictions.Add(match.Value.Replace("[", string.Empty).Replace("]", string.Empty));
                     }
+                     */
                 }
-
-                _attachmentRestrictions = restrictions;
             }
+
+            return result;
         }
 
         public bool CanAttach(Card compareTo)
@@ -125,22 +119,25 @@ namespace AgotSetupAnalyzerCore
             {
                 return false;
             }
+            character.AttachmentRestrictions = character.AttachmentRestriction();
+            attachment.AttachmentRestrictions = attachment.AttachmentRestriction();
 
-            if (((string)character.AttachmentRestriction["General"]) == "NO ATTACHMENTS")
+            if (((string)character.AttachmentRestrictions["General"]) == "NO ATTACHMENTS")
                 return false;
 
-            if (((List<string>)character.AttachmentRestriction["Traits"]).Count > 0)
-                if (!((List<string>)character.AttachmentRestriction["Traits"]).Any(s => attachment.Traits.Contains(s)))
+            if (((List<string>)character.AttachmentRestrictions["Traits"]).Count > 0)
+                if (!((List<string>)character.AttachmentRestrictions["Traits"]).Any(s => attachment.Traits.Contains(s)))
                     return false;
 
-            if (((List<string>)attachment.AttachmentRestriction["Traits"]).Count > 0)
-                if (!((List<string>)attachment.AttachmentRestriction["Traits"]).Any(s => character.Traits.Contains(s)))
+            if (((List<string>)attachment.AttachmentRestrictions["Traits"]).Count > 0)
+                if (!((List<string>)attachment.AttachmentRestrictions["Traits"]).Any(s => character.Traits.Contains(s)))
                     return false;
 
-            if (((string)attachment.AttachmentRestriction["Faction"]) != character.Faction)
+            if (!string.IsNullOrEmpty((string)attachment.AttachmentRestrictions["Faction"])
+                && ((string)attachment.AttachmentRestrictions["Faction"]) != character.Faction)
                 return false;
 
-            if (((bool)attachment.AttachmentRestriction["Unique"]) && !character.Unique)
+            if (((bool)attachment.AttachmentRestrictions["Unique"]) && !character.Unique)
                 return false;
 
 
