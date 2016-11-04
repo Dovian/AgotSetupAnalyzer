@@ -53,7 +53,7 @@ namespace AgotSetupAnalyzerCore
             TotalStrPerIcon["Power"] += setup.StrengthPerIcon()["Power"];
         }
 
-        public void FinalizeAverages(int trials)
+        public void Finalize(int trials)
         {
             BadSetups /= trials;
             NumWithGreatCharacter /= trials;

@@ -37,27 +37,29 @@ namespace AgotSetupAnalyzer
                     || (config.RequireGreatCharacter && !chosenSetup.ContainsGreatCharacter()))
                 {
                     chosenSetup.IsBad = true;
-                    deck.Shuffle();
-                    hand = deck.DeckList.Take(7);
-                    var mulliganSetup = PickForMostCardsUsed(hand.ToList(), true);
+                    if (config.MulliganAllPoorSetups && chosenSetup.IsBad)
+                    {
+                        deck.Shuffle();
+                        hand = deck.DeckList.Take(7);
+                        var mulliganSetup = PickForMostCardsUsed(hand.ToList(), true);
 
 
-                    if (mulliganSetup.CardsInHand.Count < config.CardFloorForGoodSetup
-                        || mulliganSetup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character).Count() < config.CharacterFloorForGoodSetup
-                        || (config.RequireEconomy && !(mulliganSetup.NumOfEconCards() > 0))
-                        || (config.RequireGreatCharacter && !mulliganSetup.ContainsGreatCharacter()))
-                        mulliganSetup.IsBad = true;
+                        if (mulliganSetup.CardsInHand.Count < config.CardFloorForGoodSetup
+                            || mulliganSetup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character).Count() < config.CharacterFloorForGoodSetup
+                            || (config.RequireEconomy && !(mulliganSetup.NumOfEconCards() > 0))
+                            || (config.RequireGreatCharacter && !mulliganSetup.ContainsGreatCharacter()))
+                            mulliganSetup.IsBad = true;
 
-                    Results.UpdateResults(mulliganSetup);
+                        Results.UpdateResults(mulliganSetup);
+                    }
                 }
                 Results.UpdateResults(chosenSetup);
             }
 
-            Results.FinalizeAverages(config.NumberOfTrials);
+            Results.Finalize(config.NumberOfTrials);
             return Results;
         }
-
-        //Likely best sort for most used
+        
         private SetupCards PickForMostCardsUsed(List<Card> hand, bool mulligan = false)
         {
             var goldRemaining = StaticValues.SetupGold;
