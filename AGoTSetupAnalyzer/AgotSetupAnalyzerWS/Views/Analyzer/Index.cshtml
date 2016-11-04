@@ -116,7 +116,7 @@
 <script type="text/javascript">
     function AnalyzeList() {
         $.ajax({
-            url: "/Analyzer/AnalyzeDeck",
+            url: "Analyzer/AnalyzeDeck",
             data: $("#ConfigForm").serialize(),
             type: "POST",
             success: function (result) {
