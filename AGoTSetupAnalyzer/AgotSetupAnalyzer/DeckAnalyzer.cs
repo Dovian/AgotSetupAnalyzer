@@ -36,7 +36,6 @@ namespace AgotSetupAnalyzer
                     || (config.RequireEconomy && !(chosenSetup.NumOfEconCards() > 0))
                     || (config.RequireGreatCharacter && !chosenSetup.ContainsGreatCharacter()))
                 {
-                    chosenSetup.IsBad = true;
                     if (config.MulliganAllPoorSetups && chosenSetup.IsBad)
                     {
                         deck.Shuffle();
@@ -52,6 +51,8 @@ namespace AgotSetupAnalyzer
 
                         Results.UpdateResults(mulliganSetup);
                     }
+                    else
+                        chosenSetup.IsBad = true;
                 }
                 Results.UpdateResults(chosenSetup);
             }
@@ -70,7 +71,7 @@ namespace AgotSetupAnalyzer
             var characterOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Character);
             var locationOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Location);
             var attachmentOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Attachment);
-
+            
             foreach (Card card in characterOptions)
             {
                 if (!(card.Limited && setup.LimitedInSetup()))
