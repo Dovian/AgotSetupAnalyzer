@@ -1,4 +1,5 @@
 ﻿using AgotSetupAnalyzerCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +25,11 @@ namespace AgotSetupAnalyzerWS.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AnalyzeDeck(AnalyzerConfigurationDTO dto)
+        public async Task<string> AnalyzeDeck(AnalyzerConfigurationDTO dto)
         {
             var results = await analyzer.Analyze(dto);
 
-            return PartialView("_AnalyzerResults", results);
+            return JsonConvert.SerializeObject(results);
         }
 
     }

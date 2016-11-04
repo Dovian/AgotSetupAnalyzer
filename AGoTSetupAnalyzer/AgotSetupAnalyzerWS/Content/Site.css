@@ -1,21 +1,66 @@
 ﻿/*Styles for form layout*/
-.analyzeButton {
-
-}
-.configLabel {
-    display: inline-block;
-    min-width: 200px;
-}
-.configSectionRight {
+.configForm{
     margin-left: 5px;
+    width: 750px;
 }
 .configSectionLeft {
-    float: left;
     margin-left: 5px;
     margin-right: 5px;
 }
+.configSectionRight {
+    max-width: 510px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.divTable{
+    display: table;
+}
+.divCell{
+    display: table-cell;
+}
+
+.usedCard{
+    border: 1px solid black;
+    margin-left: 2px;
+    padding: 1px;
+    align-items: center;
+    display: inline-flex;
+    justify-content: space-around;
+    min-height: 105px;
+    min-width: 125px;
+}
+.usedCardsImages{
+    align-items: center;
+    width: 75px;
+    height: 105px;
+}
+.usedCardsValues{
+    align-items: center;
+}
+
+.radioButtonSection{
+    border: 1px solid black;
+    width: 300px;
+}
+.analyzeButton {
+
+}
+
+.configLabelMulligan {
+    display: inline-block;
+    min-width: 230px;
+}
+.configLabelEconomy {
+    display: inline-block;
+    min-width: 140px;
+}
+.configLabelGreaterChar {
+    display: inline-block;
+    min-width: 210px;
+}
+
 .decklist {
-    min-width: 200px;
+    width: 240px;
     min-height: 450px;
 }
 

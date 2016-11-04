@@ -34,6 +34,7 @@ namespace AgotSetupAnalyzerCore
                 {"Intrigue", 0},
                 {"Power", 0}
             };
+            TimesCardUsedInSetup = new Dictionary<string, double>();
         }
 
         public void UpdateResults(SetupCards setup)
@@ -51,6 +52,16 @@ namespace AgotSetupAnalyzerCore
             TotalStrPerIcon["Military"] += setup.StrengthPerIcon()["Military"];
             TotalStrPerIcon["Intrigue"] += setup.StrengthPerIcon()["Intrigue"];
             TotalStrPerIcon["Power"] += setup.StrengthPerIcon()["Power"];
+
+            foreach(Card card in setup.CardsInHand)
+            {
+                if (TimesCardUsedInSetup.ContainsKey(card.ImageSource))
+                    TimesCardUsedInSetup[card.ImageSource]++;
+                else
+                {
+                    TimesCardUsedInSetup.Add(card.ImageSource, 1);
+                }
+            }
         }
 
         public void Finalize(int trials)
@@ -75,6 +86,10 @@ namespace AgotSetupAnalyzerCore
 
             for (int i = 0; i < NumOfEconCards.Length; i++)
                 NumOfEconCards[i] /= trials;
+            
+            TimesCardUsedInSetup = TimesCardUsedInSetup.OrderByDescending(c => c.Value).ToDictionary(k => k.Key, k => k.Value);
+            foreach (var key in TimesCardUsedInSetup.Keys.ToList())
+                TimesCardUsedInSetup[key] /= trials;
         }
     }
 }
