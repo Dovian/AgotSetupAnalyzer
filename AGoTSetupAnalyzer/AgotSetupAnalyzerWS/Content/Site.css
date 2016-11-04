@@ -6,14 +6,37 @@
 .configSectionLeft {
     margin-left: 5px;
     margin-right: 5px;
+    width: 250px;
 }
 .configSectionRight {
-    max-width: 510px;
+    width: 500px;
     margin-left: 5px;
     margin-right: 5px;
 }
+
+.resultHolder{
+    text-align: justify;
+    -ms-text-justify: distribute-all-lines;
+    text-justify: distribute-all-lines;
+    width: 660px;
+}
+.chart{
+    vertical-align: top;
+    display: inline-block;
+    height: 165px;
+    width: 330px;
+}
+.MainChart{
+    vertical-align: top;
+    display: inline-block;
+    height: 330px;
+    width: 660px;
+}
 .divTable{
     display: table;
+}
+.divRow{
+    display: table-row;
 }
 .divCell{
     display: table-cell;
@@ -42,6 +65,10 @@
     border: 1px solid black;
     width: 300px;
 }
+
+.expandButton{
+    
+}
 .analyzeButton {
 
 }
@@ -62,6 +89,10 @@
 .decklist {
     width: 240px;
     min-height: 450px;
+}
+
+.hidden{
+    display: none;
 }
 
 body {
