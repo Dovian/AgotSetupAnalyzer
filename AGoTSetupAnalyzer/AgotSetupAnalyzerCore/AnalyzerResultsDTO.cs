@@ -66,9 +66,9 @@ namespace AgotSetupAnalyzerCore
 
         public void Finalize(int trials)
         {
-            BadSetups /= trials;
-            NumWithGreatCharacter /= trials;
-            Mulligans /= trials;
+            NumWithGreatCharacter = (NumWithGreatCharacter * 100) / trials;
+            BadSetups = (BadSetups * 100) / trials;
+            Mulligans = (Mulligans * 100) / trials;
             TotalCharWithIcon["Military"] /= trials;
             TotalCharWithIcon["Intrigue"] /= trials;
             TotalCharWithIcon["Power"] /= trials;

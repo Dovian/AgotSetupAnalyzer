@@ -119,6 +119,8 @@
                 <div class="chart divCell">
                     <canvas id="EconCardsUsedChart"></canvas>
                 </div>
+                <div id="ExtraInfo" class="chart divCell extraInfo">
+                </div>
             </div>
             <div class="divRow">
                 <div class="chart divCell">
@@ -135,6 +137,7 @@
 </body>
 
 <script type="text/javascript">
+
     function AnalyzeList() {
         $.ajax({
             url: "Analyzer/AnalyzeDeck",
@@ -179,6 +182,14 @@
                     jsonResponse["TotalStrPerIcon"],
                     document.getElementById("StrPerIconChart").getContext("2d"));
 
+                /*Extra Info*/
+                $("#ExtraInfo").html("");
+                $("#ExtraInfo").html($("#ExtraInfo").html()
+                    .concat("<div class=\"mulligans\">Mulligans: " + jsonResponse["Mulligans"] + "%</div>"));
+                $("#ExtraInfo").html($("#ExtraInfo").html()
+                    .concat("<div class=\"PoorSetups\">Poor Setups: " + jsonResponse["BadSetups"] + "%</div>"));
+                $("#ExtraInfo").html($("#ExtraInfo").html()
+                    .concat("<div class=\"NumGreatChar\">Setups with 4-cost Character: " + jsonResponse["NumWithGreatCharacter"] + "%</div>"));
                 /*Used Cards Table*/
                 $("#usedCardsTable").html("");
                 $.each(jsonResponse["TimesCardUsedInSetup"], function (key, value) {
@@ -186,6 +197,7 @@
                         .concat("<div class=\"usedCard\"><img class=\"usedCardsImages\" src=\"http://thronesdb.com" + key + "\" />"
                         + "<div class=\"usedCardsValues\">" + value.toFixed(2) + "%</div></div>"));
                 });
+                ApplyToolTipStuff();
             }
         });
     }
@@ -210,8 +222,6 @@
                     text: "Avg Characters"
                 },
                 tooltips: {
-                    enabled: true,
-                    mode: 'single',
                     callbacks: {
                         label: function (tooltipItems, data) {
                             return Number(tooltipItems.yLabel).toFixed(2);
@@ -251,8 +261,6 @@
                     text: "Avg Strength"
                 },
                 tooltips: {
-                    enabled: true,
-                    mode: 'single',
                     callbacks: {
                         label: function (tooltipItems, data) {
                             return Number(tooltipItems.yLabel).toFixed(2);
@@ -279,8 +287,11 @@
                 labels: CreateSimpleLable(data, ""),
                 datasets: [{
                     fill: true,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    pointHitRadius: 15,
                     data: data,
-                    backgroundColor: "rgba(255,255,255,0.4)"
+                    backgroundColor: "rgba(0,0,0,0.4)"
                 }]
             },
             options: {
@@ -292,8 +303,6 @@
                     text: "Econ Cards Used"
                 },
                 tooltips: {
-                    enabled: true,
-                    mode: 'single',
                     callbacks: {
                         label: function (tooltipItems, data) {
                             return Number(tooltipItems.yLabel).toFixed(2) + '%';
@@ -320,8 +329,11 @@
                 labels: CreateSimpleLable(data, ""),
                 datasets: [{
                     fill: true,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    pointHitRadius: 15,
                     data: data,
-                    backgroundColor: "rgba(255,255,255,0.4)"
+                    backgroundColor: "rgba(0,0,0,0.4)"
                 }]
             },
             options: {
@@ -333,8 +345,6 @@
                     text: "Characters Used"
                 },
                 tooltips: {
-                    enabled: true,
-                    mode: 'single',
                     callbacks: {
                         label: function (tooltipItems, data) {
                             return Number(tooltipItems.yLabel).toFixed(2) + '%';
@@ -361,8 +371,11 @@
                 labels: CreateSimpleLable(data, ""),
                 datasets: [{
                     fill: true,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    pointHitRadius: 15,
                     data: data,
-                    backgroundColor: "rgba(255,255,255,0.4)"
+                    backgroundColor: "rgba(0,0,0,0.4)"
                 }]
             },
             options: {
@@ -374,8 +387,6 @@
                     text: "Cards Used"
                 },
                 tooltips: {
-                    enabled: true,
-                    mode: 'single',
                     callbacks: {
                         label: function (tooltipItems, data) {
                             return Number(tooltipItems.yLabel).toFixed(2) + '%';
@@ -402,6 +413,9 @@
                 labels: CreateSimpleLable(data, "g"),
                 datasets: [{
                     fill: true,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    pointHitRadius: 15,
                     data: data,
                     backgroundColor: "rgba(218,165,32,0.7)"
                 }]
@@ -415,8 +429,6 @@
                     text: "Gold Used"
                 },
                 tooltips: {
-                    enabled: true,
-                    mode: 'single',
                     callbacks: {
                         label: function (tooltipItems, data) {
                             return Number(tooltipItems.yLabel).toFixed(2) + '%';
