@@ -197,7 +197,6 @@
                         .concat("<div class=\"usedCard\"><img class=\"usedCardsImages\" src=\"http://thronesdb.com" + key + "\" />"
                         + "<div class=\"usedCardsValues\">" + value.toFixed(2) + "%</div></div>"));
                 });
-                ApplyToolTipStuff();
             }
         });
     }
@@ -231,6 +230,8 @@
                 scales: {
                     yAxes: [{
                         ticks: {
+                            suggestedMin: 0.2,
+                            stepSize: 0.2,
                             callback: function (value) {
                                 return Number(value).toFixed(2);
                             }
@@ -270,6 +271,8 @@
                 scales: {
                     yAxes: [{
                         ticks: {
+                            suggestedMin: 0.5,
+                            stepSize: 0.5,
                             callback: function (value) {
                                 return Number(value).toFixed(2);
                             }
