@@ -36,7 +36,7 @@ namespace AgotSetupAnalyzer
                     || (config.RequireEconomy && !(chosenSetup.NumOfEconCards() > 0))
                     || (config.RequireGreatCharacter && !chosenSetup.ContainsGreatCharacter()))
                 {
-                    if (config.MulliganAllPoorSetups && chosenSetup.IsBad)
+                    if (config.MulliganAllPoorSetups)
                     {
                         deck.Shuffle();
                         hand = deck.DeckList.Take(7);

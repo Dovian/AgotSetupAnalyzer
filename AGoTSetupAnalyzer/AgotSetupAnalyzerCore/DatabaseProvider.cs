@@ -66,7 +66,7 @@ namespace AgotSetupAnalyzerCore
 
                 List<string> splitName = new List<string>();
                 splitName.Add(card.Substring(0, 2));
-                splitName = splitName.Concat(card.Remove(0,2).Split(new string[] { "(" }, StringSplitOptions.RemoveEmptyEntries)).ToList();
+                splitName = splitName.Concat(card.Remove(0, 2).Split(new string[] { "(" }, StringSplitOptions.RemoveEmptyEntries)).ToList();
 
                 for (int i = 0; i < splitName.Count; i++)
                 {
@@ -89,7 +89,11 @@ namespace AgotSetupAnalyzerCore
 
                 for (int i = 0; i < quantity; i++)
                 {
-                    DeckList.Add(Card.Clone(convertedResult));
+                    if (convertedResult.Type != StaticValues.Cardtypes.Agenda
+                        && convertedResult.Type != StaticValues.Cardtypes.None
+                        && convertedResult.Type != StaticValues.Cardtypes.Plot
+                        && convertedResult.Type != StaticValues.Cardtypes.Title)
+                        DeckList.Add(Card.Clone(convertedResult));
                 }
             }
 
