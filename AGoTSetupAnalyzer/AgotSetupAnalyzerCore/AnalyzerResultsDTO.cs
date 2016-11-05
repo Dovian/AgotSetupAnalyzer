@@ -40,7 +40,7 @@ namespace AgotSetupAnalyzerCore
         public void UpdateResults(SetupCards setup)
         {
             BadSetups += setup.IsBad ? 1 : 0;
-            GoldUsed[setup.GoldUsed]++;
+            GoldUsed[setup.GoldUsed()]++;
             CardsUsed[setup.CardsInHand.Count]++;
             CharactersUsed[setup.CharactersSetup]++;
             NumOfEconCards[setup.NumOfEconCards()]++;
@@ -76,20 +76,20 @@ namespace AgotSetupAnalyzerCore
             TotalStrPerIcon["Intrigue"] /= trials;
             TotalStrPerIcon["Power"] /= trials;
             for (int i = 0; i < GoldUsed.Length; i++)
-                GoldUsed[i] /= trials;
+                GoldUsed[i] = (GoldUsed[i] * 100) / trials;
 
             for (int i = 0; i < CardsUsed.Length; i++)
-                CardsUsed[i] /= trials;
+                CardsUsed[i] = (CardsUsed[i] * 100) / trials;
 
             for (int i = 0; i < CharactersUsed.Length; i++)
-                CharactersUsed[i] /= trials;
+                CharactersUsed[i] = (CharactersUsed[i] * 100) / trials;
 
             for (int i = 0; i < NumOfEconCards.Length; i++)
-                NumOfEconCards[i] /= trials;
-            
+                NumOfEconCards[i] = (NumOfEconCards[i] * 100) / trials;
+
             TimesCardUsedInSetup = TimesCardUsedInSetup.OrderByDescending(c => c.Value).ToDictionary(k => k.Key, k => k.Value);
             foreach (var key in TimesCardUsedInSetup.Keys.ToList())
-                TimesCardUsedInSetup[key] /= trials;
+                TimesCardUsedInSetup[key] = (TimesCardUsedInSetup[key] * 100) / trials;
         }
     }
 }

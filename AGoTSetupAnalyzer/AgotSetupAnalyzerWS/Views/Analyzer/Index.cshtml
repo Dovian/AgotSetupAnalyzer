@@ -144,31 +144,37 @@
                 jsonResponse = JSON.parse(result);
 
                 /*GoldUsedChart*/
+                $("#GoldUsedChart").parent().html("<canvas id=\"GoldUsedChart\"></canvas>");
                 SetupGoldUsedChart(
                     jsonResponse["GoldUsed"],
                     document.getElementById("GoldUsedChart").getContext("2d"));
 
                 /*CardsUsedChart*/
+                $("#CardsUsedChart").parent().html("<canvas id=\"CardsUsedChart\"></canvas>");
                 SetupCardsUsedChart(
                     jsonResponse["CardsUsed"],
                     document.getElementById("CardsUsedChart").getContext("2d"));
 
                 /*CharactersUsedChart*/
+                $("#CharactersUsedChart").parent().html("<canvas id=\"CharactersUsedChart\"></canvas>");
                 SetupCharactersUsedChart(
                     jsonResponse["CharactersUsed"],
                     document.getElementById("CharactersUsedChart").getContext("2d"));
 
                 /*EconCardsUsedChart*/
+                $("#EconCardsUsedChart").parent().html("<canvas id=\"EconCardsUsedChart\"></canvas>");
                 SetupEconCardsUsedChart(
                     jsonResponse["NumOfEconCards"],
                     document.getElementById("EconCardsUsedChart").getContext("2d"));
 
                 /*CharsWithIconChart*/
+                $("#CharsWithIconChart").parent().html("<canvas id=\"CharsWithIconChart\"></canvas>");
                 SetupCharsWithIconChart(
                     jsonResponse["TotalCharWithIcon"],
                     document.getElementById("CharsWithIconChart").getContext("2d"));
 
                 /*StrPerIconChart*/
+                $("#StrPerIconChart").parent().html("<canvas id=\"StrPerIconChart\"></canvas>");
                 SetupStrPerIconChart(
                     jsonResponse["TotalStrPerIcon"],
                     document.getElementById("StrPerIconChart").getContext("2d"));
@@ -178,7 +184,7 @@
                 $.each(jsonResponse["TimesCardUsedInSetup"], function (key, value) {
                     $("#usedCardsTable").html($("#usedCardsTable").html()
                         .concat("<div class=\"usedCard\"><img class=\"usedCardsImages\" src=\"http://thronesdb.com" + key + "\" />"
-                        + "<div class=\"usedCardsValues\">" + ((value / 10000) * 100).toFixed(2) + "%</div></div>"));
+                        + "<div class=\"usedCardsValues\">" + value.toFixed(2) + "%</div></div>"));
                 });
             }
         });
@@ -298,7 +304,7 @@
                     yAxes: [{
                         ticks: {
                             callback: function (value) {
-                                return Number(value).toFixed(2) + "%";
+                                return Number(value).toFixed(0) + "%";
                             }
                         }
                     }]
@@ -339,7 +345,7 @@
                     yAxes: [{
                         ticks: {
                             callback: function (value) {
-                                return Number(value).toFixed(2) + "%";
+                                return Number(value).toFixed(0) + "%";
                             }
                         }
                     }]
@@ -380,7 +386,7 @@
                     yAxes: [{
                         ticks: {
                             callback: function (value) {
-                                return Number(value).toFixed(2) + "%";
+                                return Number(value).toFixed(0) + "%";
                             }
                         }
                     }]
@@ -421,7 +427,7 @@
                     yAxes: [{
                         ticks: {
                             callback: function (value) {
-                                return Number(value).toFixed(2) + "%";
+                                return Number(value).toFixed(0) + "%";
                             }
                         }
                     }]

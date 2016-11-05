@@ -88,7 +88,9 @@ namespace AgotSetupAnalyzerCore
                 var convertedResult = CardConverter.LocalDBDataToCard(localDbCard);
 
                 for (int i = 0; i < quantity; i++)
-                    DeckList.Add(convertedResult);
+                {
+                    DeckList.Add(Card.Clone(convertedResult));
+                }
             }
 
             return DeckList;

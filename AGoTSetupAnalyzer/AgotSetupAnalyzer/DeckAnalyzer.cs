@@ -79,6 +79,7 @@ namespace AgotSetupAnalyzer
                     if (setup.CardsInHand.Any(c => c.Name == card.Name)
                             && card.CanDupe(setup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
                     {
+                        card.UsedAsDupe = true;
                         setup.CardsInHand.Add(card);
                     }
                     else if (goldRemaining >= card.Cost)
@@ -99,6 +100,7 @@ namespace AgotSetupAnalyzer
                     if (setup.CardsInHand.Any(c => c.Name == card.Name)
                             && card.CanDupe(setup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
                     {
+                        card.UsedAsDupe = true;
                         setup.CardsInHand.Add(card);
                     }
                     else if (goldRemaining >= card.Cost)
@@ -118,6 +120,7 @@ namespace AgotSetupAnalyzer
                     if (setup.CardsInHand.Any(c => c.Name == card.Name)
                             && card.CanDupe(setup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
                     {
+                        card.UsedAsDupe = true;
                         setup.CardsInHand.Add(card);
                     }
                     else if (goldRemaining >= card.Cost)
@@ -133,7 +136,6 @@ namespace AgotSetupAnalyzer
                         break;
                 }
             }
-            setup.GoldUsed = 8 - goldRemaining;
             return setup;
         }
 
