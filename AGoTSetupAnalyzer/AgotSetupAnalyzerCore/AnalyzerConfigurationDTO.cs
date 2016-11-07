@@ -8,13 +8,17 @@ namespace AgotSetupAnalyzerCore
 {
     public class AnalyzerConfigurationDTO
     {
+        public AnalyzerConfigurationDTO()
+        {
+            NumberOfTrials = 10000;
+        }
         [DisplayName("Deck List:")]
         public string DeckList { get; set; }
         [DisplayName("Number of trials to run:")]
         public int NumberOfTrials { get; set; }
-        [DisplayName("Minimum number of cards for a good setup:")]
+        [DisplayName("Minimum number of cards:")]
         public int CardFloorForGoodSetup { get; set; }
-        [DisplayName("Minimum number of characters for a good setup:")]
+        [DisplayName("Minimum number of characters:")]
         public int CharacterFloorForGoodSetup { get; set; }
 
         //"Great" Refers to 4 or higher cost
@@ -35,5 +39,7 @@ namespace AgotSetupAnalyzerCore
         public bool MulliganNoKey { get; set; }
         [DisplayName("Mulligan all setups without economy:")]
         public bool MulliganNoEcon { get; set; }
+
+        public List<Card> CardOptions { get; set; }
     }
 }
