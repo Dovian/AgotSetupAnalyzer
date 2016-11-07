@@ -89,6 +89,10 @@
     min-width: 210px;
 }
 
+
+.notes{
+    font-size: 11px;
+}
 .decklist {
     width: 240px;
     min-height: 450px;

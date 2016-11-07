@@ -21,7 +21,7 @@ namespace AgotSetupAnalyzerWS.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            return View(new AnalyzerConfigurationDTO());
         }
 
         [HttpPost]

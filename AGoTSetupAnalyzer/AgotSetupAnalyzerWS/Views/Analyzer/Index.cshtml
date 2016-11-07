@@ -18,16 +18,17 @@
                 <button id="analyzeButton" class="analyzeButton" type="button" onclick="AnalyzeList()">Analyze List</button>
             </div>
         </div>
-        <div class="configSectionRight divCell">
-            <button id="expandButton" class="expandButton" type="button" onclick="ToggleSection('advOptions')">Show Adv. Options</button>
-            <div id="advOptions" class="expandArea hidden">
+        <button id="expandButton" class="expandButton" type="button" onclick="ToggleSection('advOptions')">Show Adv. Options</button>
+        <div id="advOptions" class="expandArea hidden">
+            <div class="configSectionRight divCell">
                 <div>
                     @Html.LabelFor(m => m.NumberOfTrials, new { @class = "configLabel" })
-                    @Html.TextBoxFor(m => m.NumberOfTrials, new { @Value = "10000" })
+                    @Html.EditorFor(m => m.NumberOfTrials)
                     @Html.ValidationMessageFor(m => m.NumberOfTrials)
                 </div>
 
-                <h3>Number of Cards</h3>
+                <h3>Requirements</h3>
+                <div class="notes">Failure to meet all requirements marks a setup as 'poor'.</div>
                 <div class="configRow">
                     @Html.LabelFor(m => m.CharacterFloorForGoodSetup, new { @class = "configLabel" })
                     <div class="radioButtonSection">
@@ -56,10 +57,6 @@
                         @Html.ValidationMessageFor(m => m.CardFloorForGoodSetup)
                     </div>
                 </div>
-
-                <h3>Specific Cards to Setup</h3>
-                <div><b>Prefer</b>: Will attempt to set up a particular kind of card.</div>
-                <div><b>Require</b>: Likewise but will also consider any setups without that kind of card poor.</div>
                 <br />
                 <div class="configRow">
                     @Html.LabelFor(m => m.RequireGreatCharacter, new { @class = "configLabelGreaterChar" })
@@ -67,21 +64,27 @@
                     @Html.ValidationMessageFor(m => m.RequireGreatCharacter)
                 </div>
                 <div class="configRow">
-                    @Html.LabelFor(m => m.PreferGreatCharacter, new { @class = "configLabelGreaterChar" })
-                    @Html.CheckBoxFor(m => m.PreferGreatCharacter)
-                    @Html.ValidationMessageFor(m => m.PreferGreatCharacter)
-                </div>
-                <div class="configRow">
                     @Html.LabelFor(m => m.RequireEconomy, new { @class = "configLabelEconomy" })
                     @Html.CheckBoxFor(m => m.RequireEconomy)
                     @Html.ValidationMessageFor(m => m.RequireEconomy)
+                </div>
+
+                <h3>Preferences</h3>
+                <div class="notes">
+                    As long as a setup meets the base requirements <b>prefer</b> will take precedence over all other metrics.
+                    In cases where there are multiple types of <b>prefer</b> cards if it's impossible to include them all, the best hand with one of them will be chosen.
+                </div>
+
+                <div class="configRow">
+                    @Html.LabelFor(m => m.PreferGreatCharacter, new { @class = "configLabelGreaterChar" })
+                    @Html.CheckBoxFor(m => m.PreferGreatCharacter)
+                    @Html.ValidationMessageFor(m => m.PreferGreatCharacter)
                 </div>
                 <div class="configRow">
                     @Html.LabelFor(m => m.PreferEconomy, new { @class = "configLabelEconomy" })
                     @Html.CheckBoxFor(m => m.PreferEconomy)
                     @Html.ValidationMessageFor(m => m.PreferEconomy)
                 </div>
-
                 <h3>Mulligan Options</h3>
                 <div class="configRow">
                     @Html.LabelFor(m => m.MulliganAllPoorSetups, new { @class = "configLabelMulligan" })
@@ -98,6 +101,9 @@
                     @Html.CheckBoxFor(m => m.MulliganNoKey)
                     @Html.ValidationMessageFor(m => m.MulliganNoKey)
                 </div>
+            </div>
+            <div id="CardOptions" class="cardEdits divCell">
+
             </div>
         </div>
     </form>
