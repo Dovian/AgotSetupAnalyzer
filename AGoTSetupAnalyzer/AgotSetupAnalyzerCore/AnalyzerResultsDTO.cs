@@ -42,7 +42,7 @@ namespace AgotSetupAnalyzerCore
             BadSetups += setup.IsBad ? 1 : 0;
             GoldUsed[setup.GoldUsed()]++;
             CardsUsed[setup.CardsInHand.Count]++;
-            CharactersUsed[setup.CharactersSetup]++;
+            CharactersUsed[setup.CharactersSetup()]++;
             NumOfEconCards[setup.NumOfEconCards()]++;
             NumWithGreatCharacter += setup.ContainsGreatCharacter() ? 1 : 0;
             Mulligans += setup.IsMulligan ? 1 : 0;
@@ -53,14 +53,9 @@ namespace AgotSetupAnalyzerCore
             TotalStrPerIcon["Intrigue"] += setup.StrengthPerIcon()["Intrigue"];
             TotalStrPerIcon["Power"] += setup.StrengthPerIcon()["Power"];
 
-            foreach(Card card in setup.CardsInHand)
+            foreach (Card card in setup.CardsInHand)
             {
-                if (TimesCardUsedInSetup.ContainsKey(card.ImageSource))
-                    TimesCardUsedInSetup[card.ImageSource]++;
-                else
-                {
-                    TimesCardUsedInSetup.Add(card.ImageSource, 1);
-                }
+                TimesCardUsedInSetup[card.ImageSource]++;
             }
         }
 

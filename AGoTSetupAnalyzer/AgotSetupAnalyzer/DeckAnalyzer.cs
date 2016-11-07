@@ -25,6 +25,17 @@ namespace AgotSetupAnalyzer
                 DeckList = (await dbProvider.PopulateDecklist(cardNames)).ToList()
             };
 
+            foreach (Card card in deck.DeckList)
+            {
+                if(!Results.TimesCardUsedInSetup.ContainsKey(card.ImageSource))
+                    Results.TimesCardUsedInSetup.Add(card.ImageSource, 0);
+
+                if (StaticValues.NeverSetupCards.Contains(card.CardCode))
+                    card.Never = true;
+                if (StaticValues.EconomyCards.Contains(card.CardCode))
+                    card.Economy = true;
+            }
+
             for (int i = 0; i < config.NumberOfTrials; i++)
             {
                 deck.Shuffle();
@@ -85,7 +96,6 @@ namespace AgotSetupAnalyzer
                     else if (goldRemaining >= card.Cost)
                     {
                         goldRemaining -= card.Cost;
-                        setup.CharactersSetup++;
                         setup.CardsInHand.Add(card);
                     }
                     else
@@ -137,6 +147,104 @@ namespace AgotSetupAnalyzer
                 }
             }
             return setup;
+        }
+
+        private SetupCards TestAllSetups(List<Card> hand, AnalyzerConfigurationDTO config, bool mulligan = false)
+        {
+            SetupCards bestSetup = new SetupCards();
+            bestSetup.IsMulligan = mulligan;
+
+            var handCopy = hand.OrderBy(c => c.Cost).ToList();
+            var characterOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Character);
+            var locationOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Location);
+            var attachmentOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Attachment);
+
+            var startingOptions = characterOptions.Distinct().Concat(locationOptions.Distinct());
+
+            foreach (Card startCard in startingOptions)
+            {
+                var goldRemaining = StaticValues.SetupGold;
+
+                SetupCards currentSetup = new SetupCards();
+                goldRemaining -= startCard.Cost;
+                currentSetup.CardsInHand.Add(startCard);
+                startCard.UsedInSetup = true;
+
+                foreach (Card card in characterOptions)
+                {
+                    if (!(card.Limited && currentSetup.LimitedInSetup())
+                        && !card.UsedInSetup 
+                        && !card.Never)
+                    {
+                        if (currentSetup.CardsInHand.Any(c => c.Name == card.Name)
+                                && card.CanDupe(currentSetup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
+                        {
+                            card.UsedAsDupe = true;
+                            currentSetup.CardsInHand.Add(card);
+                        }
+                        else if (goldRemaining >= card.Cost)
+                        {
+                            goldRemaining -= card.Cost;
+                            currentSetup.CardsInHand.Add(card);
+                        }
+                    }
+                }
+
+                foreach (Card card in locationOptions)
+                {
+                    if (!(card.Limited && currentSetup.LimitedInSetup())
+                        && !card.UsedInSetup
+                        && !card.Never)
+                    {
+                        if (currentSetup.CardsInHand.Any(c => c.Name == card.Name)
+                                && card.CanDupe(currentSetup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
+                        {
+                            card.UsedAsDupe = true;
+                            currentSetup.CardsInHand.Add(card);
+                        }
+                        else if (goldRemaining >= card.Cost)
+                        {
+                            goldRemaining -= card.Cost;
+                            currentSetup.CardsInHand.Add(card);
+                        }
+                    }
+                }
+
+                foreach (Card card in attachmentOptions)
+                {
+                    if (!(card.Limited && currentSetup.LimitedInSetup())
+                        && !card.UsedInSetup
+                        && !card.Never)
+                    {
+                        if (currentSetup.CardsInHand.Any(c => c.Name == card.Name)
+                                && card.CanDupe(currentSetup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
+                        {
+                            card.UsedAsDupe = true;
+                            currentSetup.CardsInHand.Add(card);
+                        }
+                        else if (goldRemaining >= card.Cost)
+                        {
+                            var possibleCharacters = currentSetup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character);
+                            if (possibleCharacters.Any(c => card.CanAttach(c)))
+                            {
+                                goldRemaining -= card.Cost;
+                                currentSetup.CardsInHand.Add(card);
+                            }
+                        }
+                    }
+                }
+
+                currentSetup.CalculateScore(config);
+
+                if(currentSetup.SetupScore > bestSetup.SetupScore
+                    || bestSetup.CardsInHand.Count == 0)
+                {
+                    bestSetup = currentSetup;
+                }
+                startCard.UsedInSetup = false;
+            }
+            
+            return bestSetup;
         }
 
         private string[] ParseThronesDbList(string thronesDbList)

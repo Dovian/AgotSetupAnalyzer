@@ -33,8 +33,27 @@ namespace AgotSetupAnalyzerCore
 
         public string ImageSource { get; set; }
         public string ThronesDBUrl { get; set; }
+
         public Dictionary<string, object> AttachmentRestrictions { get; set; }
         public bool UsedAsDupe { get; set; }
+        public bool UsedInSetup { get; set; }
+
+        public bool Avoid { get; set; }
+        public bool Never { get; set; }
+        public bool Economy { get; set; }
+        public bool Key { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            Card card = obj as Card;
+            if ((System.Object)card == null)
+                return false;
+
+            return card.CardCode == this.CardCode;
+        }
 
         /*
          * Potentially need method to differentiate between inclusive and exclusive restrictions
