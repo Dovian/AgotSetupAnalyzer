@@ -40,7 +40,7 @@ namespace AgotSetupAnalyzer
             {
                 deck.Shuffle();
                 var hand = deck.DeckList.Take(7);
-                var chosenSetup = PickForMostCardsUsed(hand.ToList());
+                var chosenSetup = TestAllSetups(hand.ToList(), config);
 
                 if (chosenSetup.CardsInHand.Count < config.CardFloorForGoodSetup
                     || chosenSetup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character).Count() < config.CharacterFloorForGoodSetup
@@ -51,7 +51,7 @@ namespace AgotSetupAnalyzer
                     {
                         deck.Shuffle();
                         hand = deck.DeckList.Take(7);
-                        var mulliganSetup = PickForMostCardsUsed(hand.ToList(), true);
+                        var mulliganSetup = TestAllSetups(hand.ToList(), config, true);
 
 
                         if (mulliganSetup.CardsInHand.Count < config.CardFloorForGoodSetup
@@ -153,6 +153,7 @@ namespace AgotSetupAnalyzer
         {
             SetupCards bestSetup = new SetupCards();
             bestSetup.IsMulligan = mulligan;
+            var unusedSetups = new List<SetupCards>();
 
             var handCopy = hand.OrderBy(c => c.Cost).ToList();
             var characterOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Character);
@@ -236,11 +237,15 @@ namespace AgotSetupAnalyzer
 
                 currentSetup.CalculateScore(config);
 
-                if(currentSetup.SetupScore > bestSetup.SetupScore
+                if (currentSetup.SetupScore > bestSetup.SetupScore
                     || bestSetup.CardsInHand.Count == 0)
                 {
+                    unusedSetups.Add(bestSetup);
                     bestSetup = currentSetup;
                 }
+                else
+                    unusedSetups.Add(currentSetup);
+
                 startCard.UsedInSetup = false;
             }
             
