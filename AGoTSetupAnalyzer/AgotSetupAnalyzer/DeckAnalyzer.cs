@@ -152,10 +152,8 @@ namespace AgotSetupAnalyzer
         private SetupCards TestAllSetups(List<Card> hand, AnalyzerConfigurationDTO config, bool mulligan = false)
         {
             SetupCards bestSetup = new SetupCards();
-            bestSetup.IsMulligan = mulligan;
-            var unusedSetups = new List<SetupCards>();
 
-            var handCopy = hand.OrderBy(c => c.Cost).ToList();
+            var handCopy = hand.Select(c => Card.Clone(c)).OrderBy(c => c.Cost).ToList();
             var characterOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Character);
             var locationOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Location);
             var attachmentOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Attachment);
@@ -167,6 +165,7 @@ namespace AgotSetupAnalyzer
                 var goldRemaining = StaticValues.SetupGold;
 
                 SetupCards currentSetup = new SetupCards();
+                currentSetup.IsMulligan = mulligan;
                 goldRemaining -= startCard.Cost;
                 currentSetup.CardsInHand.Add(startCard);
                 startCard.UsedInSetup = true;
@@ -239,16 +238,11 @@ namespace AgotSetupAnalyzer
 
                 if (currentSetup.SetupScore > bestSetup.SetupScore
                     || bestSetup.CardsInHand.Count == 0)
-                {
-                    unusedSetups.Add(bestSetup);
                     bestSetup = currentSetup;
-                }
-                else
-                    unusedSetups.Add(currentSetup);
 
                 startCard.UsedInSetup = false;
             }
-            
+
             return bestSetup;
         }
 

@@ -61,30 +61,31 @@ namespace AgotSetupAnalyzerCore
 
         public void Finalize(int trials)
         {
-            NumWithGreatCharacter = (NumWithGreatCharacter * 100) / trials;
-            BadSetups = (BadSetups * 100) / trials;
-            Mulligans = (Mulligans * 100) / trials;
-            TotalCharWithIcon["Military"] /= trials;
-            TotalCharWithIcon["Intrigue"] /= trials;
-            TotalCharWithIcon["Power"] /= trials;
-            TotalStrPerIcon["Military"] /= trials;
-            TotalStrPerIcon["Intrigue"] /= trials;
-            TotalStrPerIcon["Power"] /= trials;
+            NumWithGreatCharacter = (NumWithGreatCharacter * 100) / (trials + this.Mulligans);
+            BadSetups = (BadSetups * 100) / (trials + this.Mulligans);
+            TotalCharWithIcon["Military"] /= (trials + this.Mulligans);
+            TotalCharWithIcon["Intrigue"] /= (trials + this.Mulligans);
+            TotalCharWithIcon["Power"] /= (trials + this.Mulligans);
+            TotalStrPerIcon["Military"] /= (trials + this.Mulligans);
+            TotalStrPerIcon["Intrigue"] /= (trials + this.Mulligans);
+            TotalStrPerIcon["Power"] /= (trials + this.Mulligans);
             for (int i = 0; i < GoldUsed.Length; i++)
-                GoldUsed[i] = (GoldUsed[i] * 100) / trials;
+                GoldUsed[i] = (GoldUsed[i] * 100) / (trials + this.Mulligans);
 
             for (int i = 0; i < CardsUsed.Length; i++)
-                CardsUsed[i] = (CardsUsed[i] * 100) / trials;
+                CardsUsed[i] = (CardsUsed[i] * 100) / (trials + this.Mulligans);
 
             for (int i = 0; i < CharactersUsed.Length; i++)
-                CharactersUsed[i] = (CharactersUsed[i] * 100) / trials;
+                CharactersUsed[i] = (CharactersUsed[i] * 100) / (trials + this.Mulligans);
 
             for (int i = 0; i < NumOfEconCards.Length; i++)
-                NumOfEconCards[i] = (NumOfEconCards[i] * 100) / trials;
+                NumOfEconCards[i] = (NumOfEconCards[i] * 100) / (trials + this.Mulligans);
 
             TimesCardUsedInSetup = TimesCardUsedInSetup.OrderByDescending(c => c.Value).ToDictionary(k => k.Key, k => k.Value);
             foreach (var key in TimesCardUsedInSetup.Keys.ToList())
-                TimesCardUsedInSetup[key] = (TimesCardUsedInSetup[key] * 100) / trials;
+                TimesCardUsedInSetup[key] = (TimesCardUsedInSetup[key] * 100) / (trials + this.Mulligans);
+            
+            Mulligans = (Mulligans * 100) / trials;
         }
     }
 }
