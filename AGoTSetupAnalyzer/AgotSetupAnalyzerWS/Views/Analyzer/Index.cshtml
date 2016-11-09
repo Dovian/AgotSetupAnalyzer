@@ -191,11 +191,11 @@
                 /*Extra Info*/
                 $("#ExtraInfo").html("");
                 $("#ExtraInfo").html($("#ExtraInfo").html()
-                    .concat("<div class=\"mulligans\">Mulligans: " + jsonResponse["Mulligans"] + "%</div>"));
+                    .concat("<div class=\"mulligans\">Mulligans: " + jsonResponse["Mulligans"].toFixed(2) + "%</div>"));
                 $("#ExtraInfo").html($("#ExtraInfo").html()
-                    .concat("<div class=\"PoorSetups\">Poor Setups: " + jsonResponse["BadSetups"] + "%</div>"));
+                    .concat("<div class=\"PoorSetups\">Poor Setups: " + jsonResponse["BadSetups"].toFixed(2) + "%</div>"));
                 $("#ExtraInfo").html($("#ExtraInfo").html()
-                    .concat("<div class=\"NumGreatChar\">Setups with 4-cost Character: " + jsonResponse["NumWithGreatCharacter"] + "%</div>"));
+                    .concat("<div class=\"NumGreatChar\">Setups with 4-cost Character: " + jsonResponse["NumWithGreatCharacter"].toFixed(2) + "%</div>"));
                 /*Used Cards Table*/
                 $("#usedCardsTable").html("");
                 $.each(jsonResponse["TimesCardUsedInSetup"], function (key, value) {

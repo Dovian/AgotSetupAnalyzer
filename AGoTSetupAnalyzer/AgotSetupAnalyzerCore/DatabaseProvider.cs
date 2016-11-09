@@ -25,17 +25,17 @@ namespace AgotSetupAnalyzerCore
             this.localDbWriter = localDbWriter;
         }
 
-        public async Task<int> InitialDBPopulation()
+        public async Task<string> InitialDBPopulation()
         {
             var thronesDbCards = await thronesDbProvider.GetAllCards();
 
             var JsonArrayCards = JArray.Parse(thronesDbCards);
             var convertedResults = JsonArrayCards.Select(c => CardConverter.ThronesDBDataToCard(c)).AsEnumerable();
 
-            return await localDbWriter.UpdateDb(convertedResults);
+            return await localDbWriter.AddToDb(convertedResults);
         }
 
-        public async Task<int> UpdateDB(int SetCode)
+        public async Task<string> UpdateDBBySet(int SetCode)
         {
             var codeList = new List<string>();
             for (int i = 1; i < StaticValues.MaxSetSize; i++)
@@ -47,11 +47,25 @@ namespace AgotSetupAnalyzerCore
             foreach (string code in codeList)
             {
                 var thronesDbCard = await thronesDbProvider.GetSingleCard(code);
-                JsonArrayCards.Add(JToken.Parse(thronesDbCard));
+                var parsedCard = JToken.Parse(thronesDbCard);
+
+                if (parsedCard["error"] != null)
+                    break;
+
+                JsonArrayCards.Add(parsedCard);
             }
             var convertedResults = JsonArrayCards.Select(c => CardConverter.ThronesDBDataToCard(c)).AsEnumerable();
 
-            return await localDbWriter.UpdateDb(convertedResults);
+            return await localDbWriter.UpdateCards(convertedResults);
+        }
+
+        public async Task<string> UpdateDBByCard(string CardCode)
+        {
+            var thronesDbCard = await thronesDbProvider.GetSingleCard(CardCode);
+
+            var convertedResults = Enumerable.Repeat(CardConverter.ThronesDBDataToCard(thronesDbCard), 1);
+
+            return await localDbWriter.UpdateCards(convertedResults);
         }
 
         public async Task<IEnumerable<Card>> PopulateDecklist(string[] CardNames)

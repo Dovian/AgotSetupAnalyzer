@@ -8,9 +8,9 @@ namespace AgotSetupAnalyzerCore
 {
     public interface IDatabaseProvider
     {
-        Task<int> InitialDBPopulation();
+        Task<string> InitialDBPopulation();
 
-        Task<int> UpdateDB(int SetCode);
+        Task<string> UpdateDBBySet(int SetCode);
 
         Task<IEnumerable<Card>> PopulateDecklist(string[] CardNames);
     }
