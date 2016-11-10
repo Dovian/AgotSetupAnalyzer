@@ -27,7 +27,7 @@ namespace AgotSetupAnalyzer
 
             foreach (Card card in deck.DeckList)
             {
-                if(!Results.TimesCardUsedInSetup.ContainsKey(card.ImageSource))
+                if (!Results.TimesCardUsedInSetup.ContainsKey(card.ImageSource))
                     Results.TimesCardUsedInSetup.Add(card.ImageSource, 0);
 
                 if (StaticValues.NeverSetupCards.Contains(card.CardCode))
@@ -43,7 +43,7 @@ namespace AgotSetupAnalyzer
                 var chosenSetup = TestAllSetups(hand.ToList(), config);
 
                 if (chosenSetup.CardsInHand.Count < config.CardFloorForGoodSetup
-                    || chosenSetup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character).Count() < config.CharacterFloorForGoodSetup
+                    || chosenSetup.CharactersSetup() < config.CharacterFloorForGoodSetup
                     || (config.RequireEconomy && !(chosenSetup.NumOfEconCards() > 0))
                     || (config.RequireGreatCharacter && !chosenSetup.ContainsGreatCharacter()))
                 {
@@ -55,7 +55,7 @@ namespace AgotSetupAnalyzer
 
 
                         if (mulliganSetup.CardsInHand.Count < config.CardFloorForGoodSetup
-                            || mulliganSetup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character).Count() < config.CharacterFloorForGoodSetup
+                            || mulliganSetup.CharactersSetup() < config.CharacterFloorForGoodSetup
                             || (config.RequireEconomy && !(mulliganSetup.NumOfEconCards() > 0))
                             || (config.RequireGreatCharacter && !mulliganSetup.ContainsGreatCharacter()))
                             mulliganSetup.IsBad = true;
@@ -63,15 +63,19 @@ namespace AgotSetupAnalyzer
                         Results.UpdateResults(mulliganSetup);
                     }
                     else
+                    {
                         chosenSetup.IsBad = true;
+                        Results.UpdateResults(chosenSetup);
+                    }
                 }
-                Results.UpdateResults(chosenSetup);
+                else
+                    Results.UpdateResults(chosenSetup);
             }
 
             Results.Finalize(config.NumberOfTrials);
             return Results;
         }
-        
+
         private SetupCards PickForMostCardsUsed(List<Card> hand, bool mulligan = false)
         {
             var goldRemaining = StaticValues.SetupGold;
@@ -82,7 +86,7 @@ namespace AgotSetupAnalyzer
             var characterOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Character);
             var locationOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Location);
             var attachmentOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Attachment);
-            
+
             foreach (Card card in characterOptions)
             {
                 if (!(card.Limited && setup.LimitedInSetup()))
@@ -173,7 +177,7 @@ namespace AgotSetupAnalyzer
                 foreach (Card card in characterOptions)
                 {
                     if (!(card.Limited && currentSetup.LimitedInSetup())
-                        && !card.UsedInSetup 
+                        && !card.UsedInSetup
                         && !card.Never)
                     {
                         if (currentSetup.CardsInHand.Any(c => c.Name == card.Name)
