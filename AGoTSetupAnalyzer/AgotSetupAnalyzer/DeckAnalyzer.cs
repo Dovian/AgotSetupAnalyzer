@@ -158,7 +158,7 @@ namespace AgotSetupAnalyzer
             var locationOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Location);
             var attachmentOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Attachment);
 
-            var startingOptions = characterOptions.Distinct().Concat(locationOptions.Distinct());
+            var startingOptions = characterOptions.Distinct();
 
             foreach (Card startCard in startingOptions)
             {

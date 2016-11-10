@@ -11,6 +11,7 @@ namespace AgotSetupAnalyzerCore
         public AnalyzerConfigurationDTO()
         {
             NumberOfTrials = 10000;
+            MulliganAllPoorSetups = true;
         }
         [DisplayName("Deck List:")]
         public string DeckList { get; set; }

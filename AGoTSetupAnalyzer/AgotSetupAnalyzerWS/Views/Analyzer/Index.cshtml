@@ -88,7 +88,7 @@
                 <h3>Mulligan Options</h3>
                 <div class="configRow">
                     @Html.LabelFor(m => m.MulliganAllPoorSetups, new { @class = "configLabelMulligan" })
-                    @Html.CheckBoxFor(m => m.MulliganAllPoorSetups, new { @checked = "true" })
+                    @Html.CheckBoxFor(m => m.MulliganAllPoorSetups)
                     @Html.ValidationMessageFor(m => m.MulliganAllPoorSetups)
                 </div>
                 <div class="configRow">
