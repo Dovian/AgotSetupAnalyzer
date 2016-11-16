@@ -12,11 +12,13 @@ namespace AgotSetupAnalyzerCore
         public bool IsMulligan { get; set; }
         public bool IsBad { get; set; }
         public int SetupScore { get; set; }
+        public int GoldRemaining { get; set; }
 
         public SetupCards()
         {
             CardsInHand = new List<Card>();
             SetupScore = 0;
+            GoldRemaining = StaticValues.SetupGold;
         }
 
         public int CharactersSetup()

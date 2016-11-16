@@ -76,167 +76,42 @@ namespace AgotSetupAnalyzer
             return Results;
         }
 
-        private SetupCards PickForMostCardsUsed(List<Card> hand, bool mulligan = false)
-        {
-            var goldRemaining = StaticValues.SetupGold;
-            SetupCards setup = new SetupCards();
-            setup.IsMulligan = mulligan;
-
-            var handCopy = hand.OrderBy(c => c.Cost).ToList();
-            var characterOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Character);
-            var locationOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Location);
-            var attachmentOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Attachment);
-
-            foreach (Card card in characterOptions)
-            {
-                if (!(card.Limited && setup.LimitedInSetup()))
-                {
-                    if (setup.CardsInHand.Any(c => c.Name == card.Name)
-                            && card.CanDupe(setup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
-                    {
-                        card.UsedAsDupe = true;
-                        setup.CardsInHand.Add(card);
-                    }
-                    else if (goldRemaining >= card.Cost)
-                    {
-                        goldRemaining -= card.Cost;
-                        setup.CardsInHand.Add(card);
-                    }
-                    else
-                        break;
-                }
-            }
-
-            foreach (Card card in locationOptions)
-            {
-                if (!(card.Limited && setup.LimitedInSetup()))
-                {
-                    if (setup.CardsInHand.Any(c => c.Name == card.Name)
-                            && card.CanDupe(setup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
-                    {
-                        card.UsedAsDupe = true;
-                        setup.CardsInHand.Add(card);
-                    }
-                    else if (goldRemaining >= card.Cost)
-                    {
-                        goldRemaining -= card.Cost;
-                        setup.CardsInHand.Add(card);
-                    }
-                    else
-                        break;
-                }
-            }
-
-            foreach (Card card in attachmentOptions)
-            {
-                if (!(card.Limited && setup.LimitedInSetup()))
-                {
-                    if (setup.CardsInHand.Any(c => c.Name == card.Name)
-                            && card.CanDupe(setup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
-                    {
-                        card.UsedAsDupe = true;
-                        setup.CardsInHand.Add(card);
-                    }
-                    else if (goldRemaining >= card.Cost)
-                    {
-                        var possibleCharacters = setup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character);
-                        if (possibleCharacters.Any(c => card.CanAttach(c)))
-                        {
-                            goldRemaining -= card.Cost;
-                            setup.CardsInHand.Add(card);
-                        }
-                    }
-                    else
-                        break;
-                }
-            }
-            return setup;
-        }
-
         private SetupCards TestAllSetups(List<Card> hand, AnalyzerConfigurationDTO config, bool mulligan = false)
         {
             SetupCards bestSetup = new SetupCards();
-
             var handCopy = hand.Select(c => Card.Clone(c)).OrderBy(c => c.Cost).ToList();
-            var characterOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Character);
-            var locationOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Location);
-            var attachmentOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Attachment);
+
+            var characterOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Character && !c.Avoid && !c.Never);
+            var locationOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Location && !c.Avoid && !c.Never);
+            var attachmentOptions = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Attachment && !c.Avoid && !c.Never);
+
+            var avoidedCharacters = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Character && c.Avoid && !c.Never);
+            var avoidedLocations = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Location && c.Avoid && !c.Never);
+            var avoidedAttachments = handCopy.Where(c => c.Type == StaticValues.Cardtypes.Attachment && c.Avoid && !c.Never);
 
             var startingOptions = characterOptions.Distinct();
 
             foreach (Card startCard in startingOptions)
             {
-                var goldRemaining = StaticValues.SetupGold;
-
                 SetupCards currentSetup = new SetupCards();
                 currentSetup.IsMulligan = mulligan;
-                goldRemaining -= startCard.Cost;
+                currentSetup.GoldRemaining -= startCard.Cost;
                 currentSetup.CardsInHand.Add(startCard);
                 startCard.UsedInSetup = true;
 
-                foreach (Card card in characterOptions)
+                GenericAddToSetup(characterOptions, ref currentSetup);
+
+                if (currentSetup.CharactersSetup() <= config.CharacterFloorForGoodSetup)
                 {
-                    if (!(card.Limited && currentSetup.LimitedInSetup())
-                        && !card.UsedInSetup
-                        && !card.Never)
-                    {
-                        if (currentSetup.CardsInHand.Any(c => c.Name == card.Name)
-                                && card.CanDupe(currentSetup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
-                        {
-                            card.UsedAsDupe = true;
-                            currentSetup.CardsInHand.Add(card);
-                        }
-                        else if (goldRemaining >= card.Cost)
-                        {
-                            goldRemaining -= card.Cost;
-                            currentSetup.CardsInHand.Add(card);
-                        }
-                    }
+                    GenericAddToSetup(avoidedCharacters, ref currentSetup);
                 }
 
-                foreach (Card card in locationOptions)
-                {
-                    if (!(card.Limited && currentSetup.LimitedInSetup())
-                        && !card.UsedInSetup
-                        && !card.Never)
-                    {
-                        if (currentSetup.CardsInHand.Any(c => c.Name == card.Name)
-                                && card.CanDupe(currentSetup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
-                        {
-                            card.UsedAsDupe = true;
-                            currentSetup.CardsInHand.Add(card);
-                        }
-                        else if (goldRemaining >= card.Cost)
-                        {
-                            goldRemaining -= card.Cost;
-                            currentSetup.CardsInHand.Add(card);
-                        }
-                    }
-                }
+               GenericAddToSetup(locationOptions, ref currentSetup);
+               GenericAddToSetup(attachmentOptions, ref currentSetup);
 
-                foreach (Card card in attachmentOptions)
-                {
-                    if (!(card.Limited && currentSetup.LimitedInSetup())
-                        && !card.UsedInSetup
-                        && !card.Never)
-                    {
-                        if (currentSetup.CardsInHand.Any(c => c.Name == card.Name)
-                                && card.CanDupe(currentSetup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
-                        {
-                            card.UsedAsDupe = true;
-                            currentSetup.CardsInHand.Add(card);
-                        }
-                        else if (goldRemaining >= card.Cost)
-                        {
-                            var possibleCharacters = currentSetup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character);
-                            if (possibleCharacters.Any(c => card.CanAttach(c)))
-                            {
-                                goldRemaining -= card.Cost;
-                                currentSetup.CardsInHand.Add(card);
-                            }
-                        }
-                    }
-                }
+               GenericAddToSetup(avoidedCharacters, ref currentSetup);
+               GenericAddToSetup(avoidedLocations, ref currentSetup);
+               GenericAddToSetup(avoidedAttachments, ref currentSetup);
 
                 currentSetup.CalculateScore(config);
 
@@ -263,6 +138,40 @@ namespace AgotSetupAnalyzer
                 lines.RemoveAt(line);
 
             return lines.ToArray();
+        }
+
+        private void GenericAddToSetup(IEnumerable<Card> options, ref SetupCards setup)
+        {
+            foreach (Card card in options)
+            {
+                if (!(card.Limited && setup.LimitedInSetup())
+                    && !card.UsedInSetup)
+                {
+                    if (setup.CardsInHand.Any(c => c.Name == card.Name)
+                            && card.CanDupe(setup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
+                    {
+                        card.UsedAsDupe = true;
+                        setup.CardsInHand.Add(card);
+                    }
+                    else if (setup.GoldRemaining >= card.Cost)
+                    {
+                        if (card.Type == StaticValues.Cardtypes.Attachment)
+                        {
+                            var possibleCharacters = setup.CardsInHand.Where(c => c.Type == StaticValues.Cardtypes.Character);
+                            if (possibleCharacters.Any(c => card.CanAttach(c)))
+                            {
+                                setup.GoldRemaining -= card.Cost;
+                                setup.CardsInHand.Add(card);
+                            }
+                        }
+                        else
+                        {
+                            setup.GoldRemaining -= card.Cost;
+                            setup.CardsInHand.Add(card);
+                        }
+                    }
+                }
+            }
         }
     }
 }
