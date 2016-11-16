@@ -153,7 +153,7 @@ namespace AgotSetupAnalyzerCore
                     return false;
 
             if (((List<string>)attachment.AttachmentRestrictions["Traits"]).Count > 0)
-                if (!((List<string>)attachment.AttachmentRestrictions["Traits"]).Any(s => character.Traits.Contains(s)))
+                if (!((List<string>)attachment.AttachmentRestrictions["Traits"]).Any(s => character.Traits.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries).Any(c => s.Contains(c.Trim()))))
                     return false;
 
             if (!string.IsNullOrEmpty((string)attachment.AttachmentRestrictions["Faction"])
