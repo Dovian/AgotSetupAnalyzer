@@ -27,8 +27,8 @@ namespace AgotSetupAnalyzer
 
             foreach (Card card in deck.DeckList)
             {
-                if (!Results.TimesCardUsedInSetup.ContainsKey(card.ImageSource))
-                    Results.TimesCardUsedInSetup.Add(card.ImageSource, 0);
+                if (!Results.TimesCardUsedInSetup.ContainsKey(card.CardCode))
+                    Results.TimesCardUsedInSetup.Add(card.CardCode, 0);
 
                 if (StaticValues.NeverSetupCards.Contains(card.CardCode))
                     card.Never = true;
@@ -42,6 +42,9 @@ namespace AgotSetupAnalyzer
                 var hand = deck.DeckList.Take(7);
                 var chosenSetup = TestAllSetups(hand.ToList(), config);
 
+                if (i % 10 == 0)
+                    Results.CreateExampleHand(hand, chosenSetup.CardsInHand);
+
                 if (chosenSetup.CardsInHand.Count < config.CardFloorForGoodSetup
                     || chosenSetup.CharactersSetup() < config.CharacterFloorForGoodSetup
                     || (config.RequireEconomy && !(chosenSetup.NumOfEconCards() > 0))
@@ -49,10 +52,13 @@ namespace AgotSetupAnalyzer
                 {
                     if (config.MulliganAllPoorSetups)
                     {
-                        deck.Shuffle();
-                        hand = deck.DeckList.Take(7);
-                        var mulliganSetup = TestAllSetups(hand.ToList(), config, true);
 
+                        deck.Shuffle();
+                        var mulliganHand = deck.DeckList.Take(7);
+                        var mulliganSetup = TestAllSetups(mulliganHand.ToList(), config, true);
+
+                        if (i % 10 == 0)
+                            Results.CreateExampleHand(mulliganHand, mulliganSetup.CardsInHand, true);
 
                         if (mulliganSetup.CardsInHand.Count < config.CardFloorForGoodSetup
                             || mulliganSetup.CharactersSetup() < config.CharacterFloorForGoodSetup
@@ -65,11 +71,15 @@ namespace AgotSetupAnalyzer
                     else
                     {
                         chosenSetup.IsBad = true;
+                        Results.MulliganExampleHand.Add(new List<Tuple<string, bool>>());
                         Results.UpdateResults(chosenSetup);
                     }
                 }
                 else
+                {
+                    Results.MulliganExampleHand.Add(new List<Tuple<string, bool>>());
                     Results.UpdateResults(chosenSetup);
+                }
             }
 
             Results.Finalize(config.NumberOfTrials);
@@ -119,7 +129,7 @@ namespace AgotSetupAnalyzer
                     || bestSetup.CardsInHand.Count == 0)
                     bestSetup = currentSetup;
 
-                startCard.UsedInSetup = false;
+                handCopy.ForEach(c => c.UsedInSetup = false);
             }
 
             return bestSetup;
@@ -151,6 +161,7 @@ namespace AgotSetupAnalyzer
                             && card.CanDupe(setup.CardsInHand.Where(c => c.Name == card.Name).FirstOrDefault()))
                     {
                         card.UsedAsDupe = true;
+                        card.UsedInSetup = true;
                         setup.CardsInHand.Add(card);
                     }
                     else if (setup.GoldRemaining >= card.Cost)
@@ -162,12 +173,14 @@ namespace AgotSetupAnalyzer
                             {
                                 setup.GoldRemaining -= card.Cost;
                                 setup.CardsInHand.Add(card);
+                                card.UsedInSetup = true;
                             }
                         }
                         else
                         {
                             setup.GoldRemaining -= card.Cost;
                             setup.CardsInHand.Add(card);
+                            card.UsedInSetup = true;
                         }
                     }
                 }

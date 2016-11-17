@@ -17,6 +17,8 @@ namespace AgotSetupAnalyzerCore
         public Dictionary<string, double> TotalCharWithIcon { get; set; }
         public Dictionary<string, double> TotalStrPerIcon { get; set; }
         public Dictionary<string, double> TimesCardUsedInSetup { get; set; }
+        public List<List<Tuple<string, bool>>> ExampleHand { get; set; }
+        public List<List<Tuple<string, bool>>> MulliganExampleHand { get; set; }
 
         public AnalyzerResultsDTO()
         {
@@ -35,6 +37,8 @@ namespace AgotSetupAnalyzerCore
                 {"Power", 0}
             };
             TimesCardUsedInSetup = new Dictionary<string, double>();
+            ExampleHand = new List<List<Tuple<string, bool>>>();
+            MulliganExampleHand = new List<List<Tuple<string, bool>>>();
         }
 
         public void UpdateResults(SetupCards setup)
@@ -55,7 +59,7 @@ namespace AgotSetupAnalyzerCore
 
             foreach (Card card in setup.CardsInHand)
             {
-                TimesCardUsedInSetup[card.ImageSource]++;
+                TimesCardUsedInSetup[card.CardCode]++;
             }
         }
 
@@ -86,6 +90,22 @@ namespace AgotSetupAnalyzerCore
                 TimesCardUsedInSetup[key] = (TimesCardUsedInSetup[key] * 100) / (trials);
             
             Mulligans = (Mulligans * 100) / trials;
+        }
+
+        public void CreateExampleHand(IEnumerable<Card> hand, IEnumerable<Card> setupCards, bool mulligan = false)
+        {
+            List<Tuple<string, bool>> result = hand.Select(c => Tuple.Create(c.CardCode, false)).ToList();
+
+            foreach (Card card in setupCards)
+            {
+                var i = result.FindIndex(c => c.Item1 == card.CardCode && !c.Item2);
+                result[i] = Tuple.Create(card.CardCode, true);
+            }
+
+            if (mulligan)
+                MulliganExampleHand.Add(result);
+            else
+                ExampleHand.Add(result);
         }
     }
 }

@@ -200,7 +200,7 @@
                 $("#usedCardsTable").html("");
                 $.each(jsonResponse["TimesCardUsedInSetup"], function (key, value) {
                     $("#usedCardsTable").html($("#usedCardsTable").html()
-                        .concat("<div class=\"usedCard\"><img class=\"usedCardsImages\" src=\"http://thronesdb.com" + key + "\" />"
+                        .concat("<div class=\"usedCard\"><img class=\"usedCardsImages\" src=\"http://thronesdb.com/bundles/cards/" + key + ".png\" />"
                         + "<div class=\"usedCardsValues\">" + value.toFixed(2) + "%</div></div>"));
                 });
             }
