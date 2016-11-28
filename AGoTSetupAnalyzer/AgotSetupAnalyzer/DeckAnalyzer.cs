@@ -42,7 +42,7 @@ namespace AgotSetupAnalyzer
                 var hand = deck.DeckList.Take(7);
                 var chosenSetup = TestAllSetups(hand.ToList(), config);
 
-                if (i % 10 == 0)
+                if (i % 100 == 0)
                     Results.CreateExampleHand(hand, chosenSetup.CardsInHand);
 
                 if (chosenSetup.CardsInHand.Count < config.CardFloorForGoodSetup
@@ -57,7 +57,7 @@ namespace AgotSetupAnalyzer
                         var mulliganHand = deck.DeckList.Take(7);
                         var mulliganSetup = TestAllSetups(mulliganHand.ToList(), config, true);
 
-                        if (i % 10 == 0)
+                        if (i % 100 == 0)
                             Results.CreateExampleHand(mulliganHand, mulliganSetup.CardsInHand, true);
 
                         if (mulliganSetup.CardsInHand.Count < config.CardFloorForGoodSetup
@@ -71,13 +71,17 @@ namespace AgotSetupAnalyzer
                     else
                     {
                         chosenSetup.IsBad = true;
-                        Results.MulliganExampleHand.Add(new List<Tuple<string, bool>>());
+                        if(i % 100 == 0)
+                            Results.MulliganExampleHand.Add(new List<Tuple<string, bool>>());
+
                         Results.UpdateResults(chosenSetup);
                     }
                 }
                 else
                 {
-                    Results.MulliganExampleHand.Add(new List<Tuple<string, bool>>());
+                    if(i % 100 == 0)
+                        Results.MulliganExampleHand.Add(new List<Tuple<string, bool>>());
+
                     Results.UpdateResults(chosenSetup);
                 }
             }

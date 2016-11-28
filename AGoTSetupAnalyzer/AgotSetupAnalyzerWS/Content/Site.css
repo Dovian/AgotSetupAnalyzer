@@ -69,6 +69,38 @@
     width: 300px;
 }
 
+.handExample{
+    align-items: center;
+}
+.exampleButtons{
+    min-height: 10px;
+    margin-bottom: 20px;
+}
+.handExampleImages{
+    align-items: center;
+    width: 75px;
+    height: 105px;
+}
+.usedInHandtrue {
+    border: 2px solid green;
+}
+.usedInMulledHandtrue{
+    border: 2px solid orange;
+}
+.usedInHandfalse {
+    margin: 2px;
+}
+.usedInMulledHandfalse{
+    margin: 2px;
+}
+
+.floatLeft{
+    float: left;
+}
+.floatRight{
+    float: right;
+}
+
 .expandButton{
     
 }

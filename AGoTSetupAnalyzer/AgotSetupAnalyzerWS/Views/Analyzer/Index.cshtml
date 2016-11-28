@@ -72,7 +72,7 @@
                 <h3>Preferences</h3>
                 <div class="notes">
                     As long as a setup meets the base requirements <b>prefer</b> will take precedence over all other metrics.
-                    In cases where there are multiple types of <b>prefer</b> cards if it's impossible to include them all, the best hand with one of them will be chosen.
+                    In cases where there are multiple types of <b>prefer</b> cards if it's impossible to include them all, the best hand with the most of them will be chosen.
                 </div>
 
                 <div class="configRow">
@@ -137,7 +137,9 @@
                 </div>
             </div>
         </div>
-        <div id="usedCardsTable" class="divCell">
+        <div id="exampleHands">
+        </div>
+        <div id="usedCardsTable">
         </div>
     </div>
 </body>
@@ -203,8 +205,74 @@
                         .concat("<div class=\"usedCard\"><img class=\"usedCardsImages\" src=\"http://thronesdb.com/bundles/cards/" + key + ".png\" />"
                         + "<div class=\"usedCardsValues\">" + value.toFixed(2) + "%</div></div>"));
                 });
+                /*Example Hands Table*/
+                $('#exampleHands').html("");
+                $.each(jsonResponse["ExampleHand"], function (key, value) {
+                    var hand = value;
+
+                    if (jsonResponse["MulliganExampleHand"][key].length != 0) {
+                        var mulligan = jsonResponse["MulliganExampleHand"][key];
+
+                        $('#exampleHands').html($('#exampleHands').html()
+                            .concat("<div class=\"TabbedHand HandNum" + key + "\">"
+                            + "<div class=\"exampleButtons\"><input type=\"button\" class=\"floatLeft\" value=\"Previous\" onClick=\"ShowPage(" + (key - 1) + ")\" />"
+                            + "<span>Example hand " + (key + 1) + "/" + jsonResponse["ExampleHand"].length + "</span><input type=\"button\" class=\"floatRight\" value=\"Next\" onClick=\"ShowPage(" + (key + 1) + ")\" /></div>"
+                            + "<div class=\"handExample\"><span>"
+                            + "<img class=\"usedCardsImages usedInHand" + mulligan[0]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + mulligan[0]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInHand" + mulligan[1]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + mulligan[1]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInHand" + mulligan[2]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + mulligan[2]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInHand" + mulligan[3]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + mulligan[3]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInHand" + mulligan[4]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + mulligan[4]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInHand" + mulligan[5]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + mulligan[5]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInHand" + mulligan[6]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + mulligan[6]["Item1"] + ".png\" />"
+                            + "</span></div>"
+                            + "<div class=\"handExample\"><span>"
+                            + "<img class=\"usedCardsImages usedInMulledHand" + hand[0]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[0]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInMulledHand" + hand[1]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[1]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInMulledHand" + hand[2]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[2]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInMulledHand" + hand[3]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[3]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInMulledHand" + hand[4]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[4]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInMulledHand" + hand[5]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[5]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInMulledHand" + hand[6]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[6]["Item1"] + ".png\" />"
+                            + "</span></div>"
+                            + "</div>"
+                            ));
+                    }
+                    else {
+                        $('#exampleHands').html($('#exampleHands').html()
+                            .concat("<div class=\"TabbedHand HandNum" + key + "\">"
+                            + "<div class=\"exampleButtons\"><input type=\"button\" class=\"floatLeft\" value=\"Previous\" onClick=\"ShowPage(" + (key - 1) + ")\" />"
+                            + "<span>Example hand " + (key + 1) + "/" + jsonResponse["ExampleHand"].length + "</span><input type=\"button\" class=\"floatRight\" value=\"Next\" onClick=\"ShowPage(" + (key + 1) + ")\" /></div>"
+                            + "<div class=\"handExample\"><span>"
+                            + "<img class=\"usedCardsImages usedInHand" + hand[0]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[0]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInHand" + hand[1]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[1]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInHand" + hand[2]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[2]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInHand" + hand[3]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[3]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInHand" + hand[4]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[4]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInHand" + hand[5]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[5]["Item1"] + ".png\" />"
+                            + "<img class=\"usedCardsImages usedInHand" + hand[6]["Item2"] + "\" src=\"http://thronesdb.com/bundles/cards/" + hand[6]["Item1"] + ".png\" />"
+                            + "</span></div>"
+                            + "</div>"
+                            ));
+                    }
+                });
+
+                ShowPage(0);
             }
         });
+    }
+
+    function ShowPage(page) {
+        if ($(".HandNum" + page).length > 0) {
+            $(".TabbedHand").each(function () {
+                if ($(this).hasClass("HandNum" + page))
+                    $(this).removeClass("hidden");
+                else {
+                    $(this).removeClass("hidden");
+                    $(this).addClass("hidden");
+                }
+            });
+        }
     }
 
     function SetupCharsWithIconChart(data, context) {
