@@ -107,7 +107,6 @@ namespace AgotSetupAnalyzerCore
         public static string[] AvoidSetupCards = 
         {
             "01028",
-            "01047",
             "01057",
             "01095",
             "01103",
