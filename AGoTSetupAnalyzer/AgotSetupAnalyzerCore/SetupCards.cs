@@ -96,6 +96,8 @@ namespace AgotSetupAnalyzerCore
             this.SetupScore += this.IconsInSetup().Where(pair => pair.Value > 0).Count() * 10;
             this.SetupScore += (int)this.StrengthPerIcon().Sum(pair => pair.Value);
 
+            this.SetupScore -= (this.CardsInHand.Where(c => c.Avoid).Count() * 100000);
+
             if (this.CharactersSetup() < config.CharacterFloorForGoodSetup ||
                 this.CardsInHand.Count < config.CardFloorForGoodSetup ||
                 (config.RequireGreatCharacter && !this.ContainsGreatCharacter()) ||
