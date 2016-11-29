@@ -30,6 +30,8 @@ namespace AgotSetupAnalyzer
                 if (!Results.TimesCardUsedInSetup.ContainsKey(card.CardCode))
                     Results.TimesCardUsedInSetup.Add(card.CardCode, 0);
 
+                if (StaticValues.AvoidSetupCards.Contains(card.CardCode))
+                    card.Avoid = true;
                 if (StaticValues.NeverSetupCards.Contains(card.CardCode))
                     card.Never = true;
                 if (StaticValues.EconomyCards.Contains(card.CardCode))
@@ -115,7 +117,7 @@ namespace AgotSetupAnalyzer
 
                 GenericAddToSetup(characterOptions, ref currentSetup);
 
-                if (currentSetup.CharactersSetup() <= config.CharacterFloorForGoodSetup)
+                if (currentSetup.CharactersSetup() < config.CharacterFloorForGoodSetup)
                 {
                     GenericAddToSetup(avoidedCharacters, ref currentSetup);
                 }
