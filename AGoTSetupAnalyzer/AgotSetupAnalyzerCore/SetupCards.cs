@@ -73,19 +73,13 @@ namespace AgotSetupAnalyzerCore
         public void CalculateScore(AnalyzerConfigurationDTO config)
         {
             if (config.RequireEconomy || config.PreferEconomy)
-            {
                 if (this.NumOfEconCards() > 0)
                     this.SetupScore += 1000000;
-                else
-                    this.SetupScore -= 1000000;
-            }
+
             if (config.RequireGreatCharacter || config.PreferGreatCharacter)
-            {
                 if (this.ContainsGreatCharacter())
                     this.SetupScore += 1000000;
-                else
-                    this.SetupScore -= 1000000;
-            }
+
             this.SetupScore += this.CardsInHand.Where(c => c.Key).Count() * 1000000;
 
             this.SetupScore += this.CardsInHand.Count() * 100000;
