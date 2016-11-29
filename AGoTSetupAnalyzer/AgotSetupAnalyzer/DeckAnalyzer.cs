@@ -71,7 +71,7 @@ namespace AgotSetupAnalyzer
                     else
                     {
                         chosenSetup.IsBad = true;
-                        if(i % 100 == 0)
+                        if (i % 100 == 0)
                             Results.MulliganExampleHand.Add(new List<Tuple<string, bool>>());
 
                         Results.UpdateResults(chosenSetup);
@@ -79,7 +79,7 @@ namespace AgotSetupAnalyzer
                 }
                 else
                 {
-                    if(i % 100 == 0)
+                    if (i % 100 == 0)
                         Results.MulliganExampleHand.Add(new List<Tuple<string, bool>>());
 
                     Results.UpdateResults(chosenSetup);
@@ -120,12 +120,12 @@ namespace AgotSetupAnalyzer
                     GenericAddToSetup(avoidedCharacters, ref currentSetup);
                 }
 
-               GenericAddToSetup(locationOptions, ref currentSetup);
-               GenericAddToSetup(attachmentOptions, ref currentSetup);
+                GenericAddToSetup(locationOptions, ref currentSetup);
+                GenericAddToSetup(attachmentOptions, ref currentSetup);
 
-               GenericAddToSetup(avoidedCharacters, ref currentSetup);
-               GenericAddToSetup(avoidedLocations, ref currentSetup);
-               GenericAddToSetup(avoidedAttachments, ref currentSetup);
+                GenericAddToSetup(avoidedCharacters, ref currentSetup);
+                GenericAddToSetup(avoidedLocations, ref currentSetup);
+                GenericAddToSetup(avoidedAttachments, ref currentSetup);
 
                 currentSetup.CalculateScore(config);
 

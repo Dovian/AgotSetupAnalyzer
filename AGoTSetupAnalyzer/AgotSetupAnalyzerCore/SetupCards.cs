@@ -23,7 +23,7 @@ namespace AgotSetupAnalyzerCore
 
         public int CharactersSetup()
         {
-            return CardsInHand.Where(c => !c.UsedAsDupe).Count();
+            return CardsInHand.Where(c => !c.UsedAsDupe && c.Type == StaticValues.Cardtypes.Character).Count();
         }
 
         public int GoldUsed()
@@ -95,6 +95,12 @@ namespace AgotSetupAnalyzerCore
             this.SetupScore += this.CharactersSetup() * 100;
             this.SetupScore += this.IconsInSetup().Where(pair => pair.Value > 0).Count() * 10;
             this.SetupScore += (int)this.StrengthPerIcon().Sum(pair => pair.Value);
+
+            if (this.CharactersSetup() < config.CharacterFloorForGoodSetup ||
+                this.CardsInHand.Count < config.CardFloorForGoodSetup ||
+                (config.RequireGreatCharacter && !this.ContainsGreatCharacter()) ||
+                (config.RequireEconomy && !(this.NumOfEconCards() > 0)))
+                this.SetupScore = 0;
         }
     }
 }
