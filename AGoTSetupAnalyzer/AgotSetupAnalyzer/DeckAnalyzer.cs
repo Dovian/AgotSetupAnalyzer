@@ -65,7 +65,7 @@ namespace AgotSetupAnalyzer
                             || (config.RequireEconomy && !(mulliganSetup.NumOfEconCards() > 0))
                             || (config.RequireGreatCharacter && !mulliganSetup.ContainsGreatCharacter()))
                             mulliganSetup.IsBad = true;
-
+                        
                         Results.UpdateResults(mulliganSetup);
                     }
                     else
@@ -73,7 +73,7 @@ namespace AgotSetupAnalyzer
                         chosenSetup.IsBad = true;
                         if (i % 100 == 0)
                             Results.MulliganExampleHand.Add(new List<Tuple<string, bool>>());
-
+                        
                         Results.UpdateResults(chosenSetup);
                     }
                 }
@@ -81,7 +81,7 @@ namespace AgotSetupAnalyzer
                 {
                     if (i % 100 == 0)
                         Results.MulliganExampleHand.Add(new List<Tuple<string, bool>>());
-
+                    
                     Results.UpdateResults(chosenSetup);
                 }
             }
@@ -123,6 +123,8 @@ namespace AgotSetupAnalyzer
                 GenericAddToSetup(locationOptions, ref currentSetup);
                 GenericAddToSetup(attachmentOptions, ref currentSetup);
 
+                TradeUp(characterOptions.Where(c => !c.UsedInSetup), ref currentSetup);
+
                 GenericAddToSetup(avoidedCharacters, ref currentSetup);
                 GenericAddToSetup(avoidedLocations, ref currentSetup);
                 GenericAddToSetup(avoidedAttachments, ref currentSetup);
@@ -137,6 +139,30 @@ namespace AgotSetupAnalyzer
             }
 
             return bestSetup;
+        }
+
+        private void TradeUp(IEnumerable<Card> options, ref SetupCards currentSetup)
+        {
+            foreach (Card card in options)
+            {
+                var goldRequired = card.Cost - currentSetup.GoldRemaining;
+                var replacementOptions = currentSetup.CardsInHand.Where(c => c.Cost >= goldRequired && c.Cost < card.Cost);
+
+                foreach (Card dupe in replacementOptions.Where(c => c.UsedAsDupe))
+                {
+                    replacementOptions = replacementOptions.Where(c => c.Name != dupe.Name);
+                }
+                if (replacementOptions.Count() > 0)
+                {
+                    var cardToReplace = replacementOptions.OrderBy(c => c.Cost).First();
+                    cardToReplace.UsedInSetup = false;
+                    currentSetup.CardsInHand.Remove(cardToReplace);
+
+                    card.UsedInSetup = true;
+                    currentSetup.GoldRemaining = currentSetup.GoldRemaining - (card.Cost - cardToReplace.Cost);
+                    currentSetup.CardsInHand.Add(card);
+                }
+            }
         }
 
         private string[] ParseThronesDbList(string thronesDbList)
