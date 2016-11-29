@@ -82,16 +82,16 @@
     height: 105px;
 }
 .usedInHandtrue {
-    border: 2px solid green;
+    border: 3px solid green;
 }
 .usedInMulledHandtrue{
-    border: 2px solid orange;
+    border: 3px solid orange;
 }
 .usedInHandfalse {
-    margin: 2px;
+    margin: 3px;
 }
 .usedInMulledHandfalse{
-    margin: 2px;
+    margin: 3px;
 }
 
 .floatLeft{
