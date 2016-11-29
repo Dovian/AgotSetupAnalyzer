@@ -121,9 +121,8 @@ namespace AgotSetupAnalyzer
                 }
 
                 GenericAddToSetup(locationOptions, ref currentSetup);
-                GenericAddToSetup(attachmentOptions, ref currentSetup);
-
                 TradeUp(characterOptions.Where(c => !c.UsedInSetup), ref currentSetup);
+                GenericAddToSetup(attachmentOptions, ref currentSetup);
 
                 GenericAddToSetup(avoidedCharacters, ref currentSetup);
                 GenericAddToSetup(avoidedLocations, ref currentSetup);
@@ -136,6 +135,7 @@ namespace AgotSetupAnalyzer
                     bestSetup = currentSetup;
 
                 handCopy.ForEach(c => c.UsedInSetup = false);
+                handCopy.ForEach(c => c.UsedAsDupe = false);
             }
 
             return bestSetup;
@@ -160,7 +160,7 @@ namespace AgotSetupAnalyzer
 
                     card.UsedInSetup = true;
                     currentSetup.GoldRemaining = currentSetup.GoldRemaining - (card.Cost - cardToReplace.Cost);
-                    currentSetup.CardsInHand.Add(card);
+                    currentSetup.CardsInHand.Add(Card.Clone(card));
                 }
             }
         }
@@ -192,7 +192,7 @@ namespace AgotSetupAnalyzer
                     {
                         card.UsedAsDupe = true;
                         card.UsedInSetup = true;
-                        setup.CardsInHand.Add(card);
+                        setup.CardsInHand.Add(Card.Clone(card));
                     }
                     else if (setup.GoldRemaining >= card.Cost)
                     {
@@ -202,14 +202,14 @@ namespace AgotSetupAnalyzer
                             if (possibleCharacters.Any(c => card.CanAttach(c)))
                             {
                                 setup.GoldRemaining -= card.Cost;
-                                setup.CardsInHand.Add(card);
+                                setup.CardsInHand.Add(Card.Clone(card));
                                 card.UsedInSetup = true;
                             }
                         }
                         else
                         {
                             setup.GoldRemaining -= card.Cost;
-                            setup.CardsInHand.Add(card);
+                            setup.CardsInHand.Add(Card.Clone(card));
                             card.UsedInSetup = true;
                         }
                     }
