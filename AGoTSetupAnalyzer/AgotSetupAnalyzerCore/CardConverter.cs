@@ -15,7 +15,7 @@ namespace AgotSetupAnalyzerCore
             return new Card()
             {
                 CardCode = json["code"] == null ? null : json["code"].ToString(),
-                Cost = json["cost"] == null ? 0 : int.Parse(json["cost"].ToString()),
+                Cost = json["cost"] == null || json["cost"].ToString() == "" ? 0 : int.Parse(json["cost"].ToString()),
                 Faction = json["faction_code"] == null ? "" : json["faction_code"].ToString(),
                 ImageSource = json["imagesrc"] == null ? "" : json["imagesrc"].ToString(),
                 Intrigue = json["is_intrigue"] == null ? false : bool.Parse(json["is_intrigue"].ToString()),
@@ -25,7 +25,7 @@ namespace AgotSetupAnalyzerCore
                 Name = json["name"] == null ? "" : json["name"].ToString(),
                 PackCode = json["pack_code"] == null ? "" : json["pack_code"].ToString(),
                 Power = json["is_power"] == null ? false : bool.Parse(json["is_power"].ToString()),
-                Strength = json["strength"] == null ? 0 : int.Parse(json["strength"].ToString()),
+                Strength = json["strength"] == null || json["strength"].ToString() == "" ? 0 : int.Parse(json["strength"].ToString()),
                 Text = json["text"] == null ? "" : json["text"].ToString(),
                 ThronesDBUrl = json["url"] == null ? "" : json["url"].ToString(),
                 Type = json["type_name"] == null
