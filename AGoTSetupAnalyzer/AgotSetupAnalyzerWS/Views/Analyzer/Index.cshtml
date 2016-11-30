@@ -145,6 +145,12 @@
 </body>
 
 <script type="text/javascript">
+    $(document).ajaxStart(function () {
+        $(document.body).css({ 'cursor': 'wait' })
+    });
+    $(document).ajaxComplete(function () {
+        $(document.body).css({ 'cursor': 'default' })
+    });
 
     function AnalyzeList() {
         $.ajax({
