@@ -9,6 +9,9 @@ namespace AgotSetupAnalyzerCore
     public interface IDbWriter
     {
         Task<string> UpdateCards(IEnumerable<Card> cards);
+
         Task<string> AddToDb(IEnumerable<Card> cards);
+
+        void LogToDb(string message);
     }
 }

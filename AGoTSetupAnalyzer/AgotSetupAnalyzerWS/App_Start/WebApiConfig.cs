@@ -22,6 +22,13 @@ namespace AgotSetupAnalyzerWS
                 constraints: new { controller = "Update" },
                 defaults: new { }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "TestLogMessage",
+                routeTemplate: "api/{controller}/LogMessage",
+                constraints: new { controller = "Update" },
+                defaults: new { }
+            );
         }
     }
 }

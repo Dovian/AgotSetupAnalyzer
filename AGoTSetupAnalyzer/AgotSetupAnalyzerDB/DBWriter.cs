@@ -18,6 +18,25 @@ namespace AgotSetupAnalyzerDB
             this.config = config;
         }
 
+        public void LogToDb(string message)
+        {
+            string connectionString = String.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};",
+                    config.Server, config.Port, config.User, config.Password, config.Database);
+            NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            connection.Open();
+
+            var sql = "INSERT INTO public.\"logTable\" (message,\"createdOn\")"
+                + "VALUES(:message,:createdOn)";
+
+            NpgsqlCommand sqlCommand = new NpgsqlCommand(sql, connection);
+            sqlCommand.Parameters.Add(new NpgsqlParameter("message", message));
+            sqlCommand.Parameters.Add(new NpgsqlParameter("createdOn", DateTimeOffset.Now));
+
+            sqlCommand.ExecuteNonQuery();
+
+            connection.Close();
+        }
+
         public async Task<string> UpdateCards(IEnumerable<Card> cards)
         {
             var existingCards = cards.Where(c => c.CardCode != null);
@@ -70,7 +89,7 @@ namespace AgotSetupAnalyzerDB
                 }
                 catch (PostgresException ex)
                 {
-                    return ex.Message;
+                    LogToDb(ex.Message);
                 }
             }
 
@@ -126,7 +145,7 @@ namespace AgotSetupAnalyzerDB
                 }
                 catch (PostgresException ex)
                 {
-                    return ex.Message;
+                    LogToDb(ex.Message);
                 }
             }
 

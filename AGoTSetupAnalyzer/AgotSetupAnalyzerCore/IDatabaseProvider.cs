@@ -10,8 +10,12 @@ namespace AgotSetupAnalyzerCore
     {
         Task<string> InitialDBPopulation();
 
+        Task<string> UpdateFullDb();
+
         Task<string> UpdateDBBySet(int SetCode);
 
         Task<IEnumerable<Card>> PopulateDecklist(string[] CardNames);
+
+        void LogMessage(string message);
     }
 }

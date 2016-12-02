@@ -9,12 +9,13 @@ using Microsoft.Practices.Unity.InterceptionExtension;
 using System.Web.Http;
 using System.Web.Mvc;
 using Unity.WebApi;
+using AgotSetupAnalyzerWS.Jobs;
 
 namespace AgotSetupAnalyzerWS
 {
     public static class UnityConfig
     {
-        public static void Configure()
+        public static IUnityContainer Configure()
         {
 			var container = new UnityContainer();
             container.AddNewExtension<Interception>();
@@ -23,6 +24,8 @@ namespace AgotSetupAnalyzerWS
             
             GlobalConfiguration.Configuration.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
             DependencyResolver.SetResolver(new Microsoft.Practices.Unity.Mvc.UnityDependencyResolver(container));
+
+            return container;
         }
 
         private static void RegisterServices(UnityContainer container)
@@ -43,6 +46,10 @@ namespace AgotSetupAnalyzerWS
                 new ContainerControlledLifetimeManager(),
                 new Interceptor<InterfaceInterceptor>());
             container.RegisterType<ILocalDBConfig, LocalDBConfig>(
+                new ContainerControlledLifetimeManager(),
+                new Interceptor<InterfaceInterceptor>());
+            
+            container.RegisterType<IRequestSyncJob, RequestSyncJob>(
                 new ContainerControlledLifetimeManager(),
                 new Interceptor<InterfaceInterceptor>());
         }

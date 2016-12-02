@@ -24,7 +24,8 @@ namespace AgotSetupAnalyzerWS
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            UnityConfig.Configure();
+            var container = UnityConfig.Configure();
+            SchedulerConfig.Configure(container);
         }
     }
 }

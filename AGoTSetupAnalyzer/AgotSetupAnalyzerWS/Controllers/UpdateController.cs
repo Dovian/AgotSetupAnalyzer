@@ -30,5 +30,11 @@ namespace AgotSetupAnalyzerWS.Controllers
             var result = await this.localDbProvider.InitialDBPopulation();
             return result;
         }
+
+        [HttpGet]
+        public void LogMessage(string message)
+        {
+            this.localDbProvider.LogMessage(message);
+        }
     }
 }

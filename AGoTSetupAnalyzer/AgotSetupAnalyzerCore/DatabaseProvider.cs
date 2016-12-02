@@ -35,6 +35,16 @@ namespace AgotSetupAnalyzerCore
             return await localDbWriter.AddToDb(convertedResults);
         }
 
+        public async Task<string> UpdateFullDb()
+        {
+            var thronesDbCards = await thronesDbProvider.GetAllCards();
+
+            var JsonArrayCards = JArray.Parse(thronesDbCards);
+            var convertedResults = JsonArrayCards.Select(c => CardConverter.ThronesDBDataToCard(c)).AsEnumerable();
+
+            return await localDbWriter.UpdateCards(convertedResults);
+        }
+
         public async Task<string> UpdateDBBySet(int SetCode)
         {
             var codeList = new List<string>();
@@ -112,6 +122,11 @@ namespace AgotSetupAnalyzerCore
             }
 
             return DeckList;
+        }
+
+        public void LogMessage(string message)
+        {
+            localDbWriter.LogToDb(message);
         }
     }
 }
