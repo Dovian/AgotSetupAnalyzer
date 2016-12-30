@@ -18,7 +18,7 @@
                 <button id="analyzeButton" class="analyzeButton" type="button" onclick="AnalyzeList()">Analyze List</button>
             </div>
         </div>
-        <button id="expandButton" class="expandButton" type="button" onclick="ToggleSection('advOptions')">Show Adv. Options</button>
+        <button id="expandAdvButton" class="expandButton" type="button" onclick="ToggleAdvSection('advOptions')">Show Adv. Options</button>
         <div id="advOptions" class="expandArea hidden">
             <div class="configSectionRight divCell">
                 <div>
@@ -154,7 +154,7 @@
 
     function AnalyzeList() {
         $.ajax({
-            url: "Analyzer/AnalyzeDeck",
+            url: "AnalyzeDeck",
             data: $("#ConfigForm").serialize(),
             type: "POST",
             success: function (result) {
@@ -539,10 +539,14 @@
         return x;
     }
 
-    function ToggleSection(sectionId) {
-        if ($("#" + sectionId).hasClass('hidden'))
+    function ToggleAdvSection(sectionId) {
+        if ($("#" + sectionId).hasClass('hidden')) {
             $("#" + sectionId).removeClass('hidden');
-        else
+            $("#expandAdvButton").text("Hide Adv. Options");
+        }
+        else {
             $("#" + sectionId).addClass('hidden');
+            $("#expandAdvButton").text("Show Adv. Options");
+        }
     }
 </script>

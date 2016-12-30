@@ -142,8 +142,11 @@ namespace AgotSetupAnalyzerCore
             {
                 return false;
             }
-            character.AttachmentRestrictions = character.AttachmentRestriction();
-            attachment.AttachmentRestrictions = attachment.AttachmentRestriction();
+
+            if(character.AttachmentRestrictions == null)
+                character.AttachmentRestrictions = character.AttachmentRestriction();
+            if(attachment.AttachmentRestrictions == null)
+                attachment.AttachmentRestrictions = attachment.AttachmentRestriction();
 
             if (((string)character.AttachmentRestrictions["General"]) == "NO ATTACHMENTS")
                 return false;

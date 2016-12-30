@@ -18,9 +18,9 @@ namespace AgotSetupAnalyzerWS
 
             config.Routes.MapHttpRoute(
                 name: "UpdateRangePull",
-                routeTemplate: "api/{controller}/UpdateDataPull",
+                routeTemplate: "api/{controller}/UpdateDataPull/{SetCode}",
                 constraints: new { controller = "Update" },
-                defaults: new { }
+                defaults: new { SetCode = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(
